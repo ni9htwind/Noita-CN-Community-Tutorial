@@ -1,0 +1,32 @@
+<Entity name="$animal_failed_alchemist" >
+	<SpriteComponent
+		image_file="data/enemies_gfx/failed_alchemist.xml"
+		offset_x="0"
+		offset_y="0">
+	</SpriteComponent>
+	<HitboxComponent
+		aabb_max_x="8"
+		aabb_max_y="2"
+		aabb_min_x="-8"
+		aabb_min_y="-24">
+	</HitboxComponent>
+	<CharacterDataComponent
+		collision_aabb_min_x="-3.0"
+		collision_aabb_max_x="3.0"
+		collision_aabb_min_y="-20"
+		collision_aabb_max_y="3"
+		mass="1.8">
+	</CharacterDataComponent>
+	<AudioComponent
+		file="data/audio/Desktop/animals.bank"
+		event_root="animals/failed_alchemist">
+	</AudioComponent>
+	<LuaComponent
+		script_interacting="mods/community_tutorial/files/veteran/interact.lua"
+		script_source_file="mods/community_tutorial/files/veteran/interact.lua"
+		execute_every_n_frame="1"
+		enable_coroutines="1">
+	</LuaComponent>
+	<InteractableComponent ui_text="$community_tutorial_veteran_interact" radius="10" />
+	<VariableStorageComponent name="veteran_number" />
+</Entity>

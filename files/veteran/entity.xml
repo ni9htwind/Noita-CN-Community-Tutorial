@@ -27,6 +27,6 @@
 		execute_every_n_frame="1"
 		enable_coroutines="1">
 	</LuaComponent>
-	<InteractableComponent ui_text="$community_tutorial_veteran_interact" radius="10" />
+	<InteractableComponent ui_text="$community_tutorial_veteran_interact" radius="32" />
 	<VariableStorageComponent name="veteran_number" />
 </Entity>

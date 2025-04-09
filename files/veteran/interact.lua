@@ -1,7 +1,7 @@
 local dialog_system = dofile_once( "mods/community_tutorial/libs/DialogSystem/dialog_system.lua" )
 local num_tips = tonumber( GameTextGetTranslatedOrNot( "$community_tutorial_tips_max_index" ) )
 
-function interacting( entity_who_interacted, entity_interacted, interactable_name )
+local function open_dialog()
 	SetRandomSeed( GameGetFrameNum(), GameGetFrameNum() + 99 )
 	dialog_system.open_dialog{
 		name = "$community_tutorial_veteran_npc_name",
@@ -17,4 +17,18 @@ function interacting( entity_who_interacted, entity_interacted, interactable_nam
 			},
 		},
 	}
+end
+
+local entity_id = GetUpdatedEntityID()
+if not EntityHasTag( entity_id, "invincible" ) then
+	local x, y = EntityGetTransform( entity_id )
+	local player = EntityGetInRadiusWithTag( x, y, 20, "player_unit" )
+	if player and #player > 0 then
+		EntityAddTag( entity_id, "invincible" )
+		open_dialog()
+	end
+end
+
+function interacting( entity_who_interacted, entity_interacted, interactable_name )
+	open_dialog()
 end

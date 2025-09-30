@@ -1,8 +1,8 @@
 <Biome>
 	<Topology
-		name="$biome_tutoriel"
+		name="$biome_tutorial"
 		type="BIOME_WANG_TILE"
-		background_image="data/weather_gfx/background_tutoriel.png"
+		background_image="data/weather_gfx/background_tutorial.png"
 		background_edge_left=""
 		background_edge_right=""
 		background_edge_top=""
@@ -11,8 +11,8 @@
 
 		limit_background_image="0"
 		noise_biome_edges="1"
-		wang_template_file="data/wang_tiles/tutoriel.png"
-		lua_script="data/scripts/biomes/tutoriel.lua"
+		wang_template_file="data/wang_tiles/tutorial.png"
+		lua_script="data/scripts/biomes/tutorial.lua"
 		wang_map_width="256"
 		wang_map_height="256"
 		audio_music_2="excavationsite"
@@ -20,7 +20,7 @@
 	></Topology>
 
 	<Materials
-		name="tutoriel"
+		name="tutorial"
 	>
 
 		<MaterialComponent

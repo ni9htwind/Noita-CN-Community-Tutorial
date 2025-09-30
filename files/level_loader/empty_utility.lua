@@ -1,13 +1,7 @@
-
----返回模组路径字符串
----@return string
-function community_cn_mod_path()
-	return "mods/Noita-CN-Community-Tutorial/files/" -- //TODO: 也许后面会改?
-end
-
+mod_path = "mods/community_tutorial/files/"
 
 dofile_once( "data/scripts/perks/perk.lua" )
-dofile_once( community_cn_mod_path() .. "scripts/tutorial/levels_info.lua" )
+dofile_once( mod_path .. "scripts/tutorial/levels_info.lua" )
 
 ---@return nil
 function delete_other_entities()
@@ -96,7 +90,7 @@ end
 ---@return nil
 function load_world() -- //TODO: 似乎不对? 后续再改改
 	local chapter, level = get_chapter_and_level()
-	BiomeMapLoad_KeepPlayer( community_cn_mod_path() .. "biome_impl/biome_map_tutorial.lua", community_cn_mod_path() .. "biome/tutorial/" .. chapter .. "/" .. level .. "/_pixel_scenes.xml" )
+	BiomeMapLoad_KeepPlayer( mod_path .. "biome_impl/biome_map_tutorial.lua", mod_path .. "biome/tutorial/" .. chapter .. "/" .. level .. "/_pixel_scenes.xml" )
 
 	load_starting_lua( chapter, level )
 end

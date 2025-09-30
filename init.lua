@@ -9,15 +9,8 @@ ModTextFileSetContent( main, main_content .. translations:gsub( "^[^\n]*\n", "",
 
 dofile_once( "mods/community_tutorial/libs/DialogSystem/init.lua" )( "mods/community_tutorial/libs/DialogSystem" )
 
-local temple_altar_scripts = {
-	"data/scripts/biomes/temple_altar.lua",
-	"data/scripts/biomes/temple_altar_left.lua",
-	"data/scripts/biomes/temple_altar_right.lua",
-	"data/scripts/biomes/temple_altar_right_snowcastle.lua",
-	"data/scripts/biomes/temple_altar_right_snowcave.lua",
-	"data/scripts/biomes/temple_altar_right_secret.lua",
-}
 
-for _, s in ipairs( temple_altar_scripts ) do
-	ModLuaFileAppend( s, "mods/community_tutorial/files/veteran/temple_altar_append.lua" )
-end
+ModLuaFileAppend( "data/scripts/biomes/temple_altar.lua",
+	"mods/community_tutorial/files/veteran/temple_altar_append.lua" )
+ModLuaFileAppend( "data/scripts/biomes/mountain/mountain_left_entrance.lua",
+	"mods/community_tutorial/files/veteran/mountain_left_entrance_append.lua" )

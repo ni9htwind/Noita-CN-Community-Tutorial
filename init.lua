@@ -1,4 +1,5 @@
-local mod_path = "mods/community_tutorial/"
+mod_id = "community_tutorial"
+mod_path = "mods/community_tutorial/"
 
 local translations = ModTextFileGetContent( mod_path .. "translations.csv" )
 local main = "data/translations/common.csv"
@@ -16,4 +17,8 @@ ModLuaFileAppend( "data/scripts/biomes/temple_altar.lua",
 ModLuaFileAppend( "data/scripts/biomes/mountain/mountain_left_entrance.lua",
 	mod_path .. "files/veteran/mountain_left_entrance_append.lua" )
 
-dofile_once( mod_path .. "libs/polytools_init.lua" ).init( mod_path .. "libs/" )
+dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
+
+function OnWorldPreUpdate()
+	dofile( mod_path .. "files/gui/main.lua" )
+end

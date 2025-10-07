@@ -29,9 +29,8 @@ function percent_to_ui_scale_y( y )
 	return y * screen_height / 100
 end
 
-function horizontal_centered_x( buttons_num, offset )
-	offset = offset or 0
-	return screen_width / 2 - ( ( buttons_num - offset ) * 22 + 2 ) / 2
+function horizontal_centered_x( buttons_num, button_width )
+	return screen_width / 2 - ( buttons_num * ( button_width + 2 ) - 2 ) / 2
 end
 
 function get_screen_position( x, y )

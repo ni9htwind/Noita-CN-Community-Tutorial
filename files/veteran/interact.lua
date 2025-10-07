@@ -1,22 +1,31 @@
+local mod_path = "mods/community_tutorial/"
+
+dofile_once( mod_path .. "files/misc_utils.lua" )
+local const = dofile_once( mod_path .. "files/constants.lua" )
 local dialog_system = dofile_once( "mods/community_tutorial/libs/DialogSystem/dialog_system.lua" )
+
 local num_tips = tonumber( GameTextGetTranslatedOrNot( "$community_tutorial_tips_max_index" ) )
+
+local main_dialog = {
+	name = wrap_key( "veteran_npc_name" ),
+	portrait = mod_path .. "files/veteran/portrait.png",
+	typing_sound = "none",
+	text = nil, -- set later
+	options = {
+		{
+			text = "我想进入教学关卡",
+			func = function( dialog )
+				ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "1" )
+			end,
+		},
+	},
+}
 
 local function open_dialog()
 	SetRandomSeed( GameGetFrameNum(), GameGetFrameNum() + 99 )
-	dialog_system.open_dialog{
-		name = "$community_tutorial_veteran_npc_name",
-		portrait = "mods/community_tutorial/files/veteran/portrait.png",
-		typing_sound = "none",
-		text = GameTextGetTranslatedOrNot( "$community_tutorial_tips_" .. Random( 1, num_tips ) ),
-		options = {
-			{
-				text = "测试文本1",
-			},
-			{
-				text = "测试文本2",
-			},
-		},
-	}
+	main_dialog.text = GameTextGetTranslatedOrNot( wrap_key( "tips_" .. Random( 1, num_tips ) ) )
+
+	dialog_system.open_dialog( main_dialog )
 end
 
 local entity_id = GetUpdatedEntityID()

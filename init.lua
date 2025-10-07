@@ -19,6 +19,8 @@ ModLuaFileAppend( "data/scripts/biomes/mountain/mountain_left_entrance.lua",
 
 dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
 
+ModTextFileSetContent_Saved = ModTextFileSetContent
+
 function OnWorldPreUpdate()
 	dofile( mod_path .. "files/gui/main.lua" )
 end

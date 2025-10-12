@@ -23,8 +23,6 @@ for i, chapter in ipairs( chapters ) do
 	end
 end
 
-chapter_selected = chapters_visible[1]
-
 local id_allocator = dofile_once( mod_path .. "files/gui/id_allocator.lua" )
 get_id = id_allocator.get_id
 
@@ -44,9 +42,8 @@ local black_alpha = 0.7
 
 local chapter_width = 24
 
-local chapter_highlight_last_x
-local chapter_highlight_dest_x
-
+local level_button_image = image_path .. "spell_box.png"
+local level_button_size, _ = GuiGetImageDimensions( gui, level_button_image, 1.5 )
 local level_button_first_row_y_percent = 30 / 100
 local level_button_num_per_row = 10
 local level_button_row_per_page = 3
@@ -55,7 +52,18 @@ local level_num_font = "data/fonts/font_small_numbers.xml"
 local level_num_font_scale = 2
 local level_page_button_x_percent = 15 / 100
 
+local room_button_image = image_path .. "spell_box.png"
+local room_button_size, _ = GuiGetImageDimensions( gui, room_button_image, 1.5 )
+local level_large_button_size = 64
+local level_large_button_y_percent = 40 / 100
+
+local chapter_selected = chapters_visible[1]
+local chapter_highlight_last_x
+local chapter_highlight_dest_x
+
 local level_page = 1
+
+local level_selected = nil
 
 function do_gui()
 	if ModTextFileGetContent( const.Vfile_LevelsGuiShowing ) ~= "1" then return end
@@ -96,6 +104,7 @@ function do_gui()
 			image_path .. "transparent_button_chapter.png" ) then
 			chapter_selected = chapter
 			level_page = 1
+			level_selected = nil
 		end
 
 		if chapter_selected == chapter then
@@ -137,13 +146,27 @@ function do_gui()
 	local main_bar_right_end = screen_width - main_bar_x
 	local button_close_x = main_bar_right_end - 4 - 8
 	local button_close_y = main_bar_y + 8 / 2
+	GuiZSetForNextWidget( gui, -1 )
 	if GuiImageButton( gui, get_id(), button_close_x, button_close_y, "", image_path .. "button_close.png" ) then
 		ModTextFileSetContent_Saved( const.Vfile_LevelsGuiShowing, "" ) 
 	end
 
-	if chapter_selected then
-		local level_button_size, _ = GuiGetImageDimensions( gui, image_path .. "spell_box.png", 1.5 )
+	if level_selected then
+		local level_large_button_x = screen_width / 2 - level_large_button_size / 2
+		local level_large_button_y = screen_height * level_large_button_y_percent
 
+		local room_row_left_end = horizontal_centered_x( #level_selected.rooms, room_button_size )
+		local room_button_x = room_row_left_end
+		local room_button_y = level_large_button_y + level_large_button_size + 2
+		for i, room in ipairs( level_selected.rooms ) do
+			if GuiImageButton( gui, get_id(), room_button_x, room_button_y, "", image_path .. "transparent_30x30.png" ) then
+				level_loader.load( level_selected, i )
+				ModTextFileSetContent_Saved( const.Vfile_LevelsGuiShowing, "" )
+			end
+
+			GuiImage( gui, get_id(), room_button_x, room_button_y, room_button_image, 1, 1, 1, 0 )
+		end
+	elseif chapter_selected then
 		local left_end = horizontal_centered_x( level_button_num_per_row, level_button_size )
 		local level_button_x = left_end
 		local level_button_y = screen_height * level_button_first_row_y_percent
@@ -153,8 +176,12 @@ function do_gui()
 
 			GuiZSetForNextWidget( gui, -1 )
 			if GuiImageButton( gui, get_id(), level_button_x, level_button_y, "", image_path .. "transparent_30x30.png" ) then
-				print( "loading level from" .. tostring(level.path) )
-				level_loader.load( level )
+				if level.num_rooms == 1 then
+					level_loader.load( level, 1 )
+					ModTextFileSetContent_Saved( const.Vfile_LevelsGuiShowing, "" )
+				else
+					level_selected = level
+				end
 			end
 			local _,_,hover = previous_data( gui )
 			if hover then

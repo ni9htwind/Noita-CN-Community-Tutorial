@@ -40,19 +40,19 @@ end
 local function get_rooms( level )
 	local num_rooms = level.num_rooms
 	if not num_rooms or num_rooms == 1 then
-		return { { pixel_scene = { level.path .. "/materials.png", level.path .. "/colors.png" } } }
+		return { { pixel_scene = { level.path .. "materials.png", level.path .. "colors.png" } } }
 	end
 
 	local rooms = {}
 	for i = 1, num_rooms do
-		local materials_file = ("%s/room_%d_materials.png"):format( level.path, i )
-		local colors_file = ("%s/room_%d_colors.png"):format( level.path, i )
+		local materials_file = ("%sroom_%d_materials.png"):format( level.path, i )
+		local colors_file = ("%sroom_%d_colors.png"):format( level.path, i )
 
 		if not ModDoesFileExist( materials_file ) then
-			print_error( ("Materials file doesn't exist in level %s, room %d"):format( level.name, i ) )
+			print_error( ("Materials file doesn't exist for level %s, room %d"):format( level.name, i ) )
 		end
 		if not ModDoesFileExist( colors_file ) then
-			print_error( ("Materials file doesn't exist in level %s, room %d"):format( level.name, i ) )
+			print_error( ("Colors file doesn't exist for level %s, room %d"):format( level.name, i ) )
 		end
 
 		local room = { pixel_scene = { materials_file, colors_file } }

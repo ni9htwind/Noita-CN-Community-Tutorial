@@ -1,6 +1,10 @@
 mod_id = "community_tutorial"
 mod_path = "mods/community_tutorial/"
 
+ModTextFileSetContent_Saved = ModTextFileSetContent
+
+dofile_once( mod_path .. "files/misc_utils.lua" )
+
 local translations = ModTextFileGetContent( mod_path .. "translations.csv" )
 local main = "data/translations/common.csv"
 local main_content = ModTextFileGetContent( main )
@@ -11,16 +15,56 @@ end
 ModTextFileSetContent( main, main_content .. translations:gsub( "^[^\n]*\n", "", 1 ) )
 
 dofile_once( mod_path .. "libs/DialogSystem/init.lua" )( mod_path .. "libs/DialogSystem" )
-
-ModLuaFileAppend( "data/scripts/biomes/temple_altar.lua",
-	mod_path .. "files/veteran/temple_altar_append.lua" )
-ModLuaFileAppend( "data/scripts/biomes/mountain/mountain_left_entrance.lua",
-	mod_path .. "files/veteran/mountain_left_entrance_append.lua" )
-
 dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
 
-ModTextFileSetContent_Saved = ModTextFileSetContent
+local modules = {
+	"gui",
+	"level_api",
+	"levels",
+	"veteran",
+}
 
-function OnWorldPreUpdate()
-	dofile( mod_path .. "files/gui/main.lua" )
+local callbacks = {
+	OnBiomeConfigLoaded = {},
+	OnCountSecrets = {},
+	OnMagicNumbersAndWorldSeedInitialized = {},
+	OnModInit = {},
+	OnModPostInit = {},
+	OnModPreInit = {},
+	OnModSettingsChanged = {},
+	OnPausePreUpdate = {},
+	OnPausedChanged = {},
+	OnPlayerDied = {},
+	OnPlayerSpawned = {},
+	OnWorldInitialized = {},
+	OnWorldPostUpdate = {},
+	OnWorldPreUpdate = {},
+}
+
+local _module_path = mod_path .. "files/%s/"
+
+for _, module in ipairs( modules ) do
+	local module_path = _module_path:format( module )
+
+	local init_lua = module_path .. "init.lua"
+	if not ModDoesFileExist( init_lua ) then goto continue end
+
+	local globals = get_globals( init_lua, { module_path = module_path } )
+
+	for name, funcs in pairs( callbacks ) do
+		local f = globals[ name ]
+		if f then
+			funcs[ #funcs + 1 ] = f
+		end
+	end
+
+	::continue::
+end
+
+for name, funcs in pairs( callbacks ) do
+	if #funcs > 0 then
+		_G[ name ] = function()
+			for _, f in ipairs( funcs ) do f() end
+		end
+	end
 end

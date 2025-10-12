@@ -1,10 +1,8 @@
 local mod_path = "mods/community_tutorial/"
 local const = dofile_once( mod_path .. "files/constants.lua" )
 
--- dofile_once( "data/scripts/perks/perk.lua" )
-
-local pixel_scene_file_content = [[
-<PixelScenes>
+local pixel_scene_file_content =
+[[<PixelScenes>
 	<mBufferedPixelScenes>
 		<PixelScene
 			background_filename=""
@@ -18,11 +16,11 @@ local pixel_scene_file_content = [[
 </PixelScenes>
 ]]
 
+local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
+
 local level_loader = {}
 
-function level_loader.load( level )
-	local level_path = level.path
-
+function level_loader.load( level, room_index )
 	local player_id = EntityGetWithTag( "player_unit" )[1]
 
 	for _, comp_id in ipairs( EntityGetAllComponents( player_id ) ) do
@@ -37,23 +35,19 @@ function level_loader.load( level )
 	EntityAddChild( player_id, EntityCreateNew( "inventory_quick" ) )
 	EntityAddChild( player_id, EntityCreateNew( "inventory_full" ) )
 
-	local materials_file = level_path .. "materials.png"
-	local colors_file = level_path .. "colors.png"
+	local room = level.rooms[ room_index ]
 
-	local pixel_scene_file = level_path .. "pixel_scene.xml"
+	local pixel_scene_file = ("%sroom_%d_pixel_scene.xml"):format( level.path, room_index )
 	if not ModDoesFileExist( pixel_scene_file ) then
-		ModTextFileSetContent_Saved( pixel_scene_file, pixel_scene_file_content:format( materials_file, colors_file ) )
+		ModTextFileSetContent_Saved( pixel_scene_file, pixel_scene_file_content:format( unpack( room.pixel_scene ) ) )
 	end
 
-	BiomeMapLoad_KeepPlayer( mod_path .. "files/level_api/biome_blank/biome_map_blank.lua",
-		-- mod_path .. "files/level_api/biome_blank/_pixel_scenes_blank.xml" )
-		pixel_scene_file )
+	BiomeMapLoad_KeepPlayer( biome_map_blank, pixel_scene_file )
 
-	-- LoadPixelScene( materials_file, colors_file, 0, 0, "", true, true )
+	EntitySetTransform( player_id, room.starting_pos_x or 0, room.starting_pos_y or 0 )
 
 	GlobalsSetValue( const.Globals_CurrentLevel, level.id )
-
-	EntitySetTransform( player_id, level.starting_pos_x, level.starting_pos_y )
+	GlobalsSetValue( const.Globals_CurrentRoomIndex, room_index )
 
 	-- EntityLoad( "data/entities/particles/supernova.xml", 0, 0 )
 end

@@ -74,3 +74,12 @@ function previous_hovered( margin )
 	local _,_,_,x,y,width,height,_,_,_,_ = previous_data( gui )
 	return -margin + x < mx and mx < x + width + margin and -margin + y < my and my < y + height + margin
 end
+
+function transparent_image( width, height )
+	height = height or width
+	local filename = ("%sfiles/gui/images/transparent_%dx%d.png"):format( mod_path, width, height )
+	if not ModDoesFileExist( filename ) then
+		print_error( "File does not exist:", filename )
+	end
+	return filename
+end

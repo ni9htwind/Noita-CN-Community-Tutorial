@@ -11,3 +11,5 @@ local biome = nxml.new_element( "Biome", {
 biomes:add_child( biome )
 
 ModTextFileSetContent_Saved( biomes_file, tostring( biomes ) )
+
+ModMaterialsFileAdd( module_path .. "materials.xml" )

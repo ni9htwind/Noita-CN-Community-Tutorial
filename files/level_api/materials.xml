@@ -1,0 +1,35 @@
+<Materials>
+	<CellData
+		_parent="gem_box2d_yellow_sun"
+		_inherit_reactions="0"
+		name="community_tutorial.invisible_wall"
+		ui_name=" "
+		burnable="0"
+		density="10"
+		cell_type="liquid"
+		wang_color="ffAEFD0B"
+		generates_smoke="0"
+		liquid_gravity="0"
+		liquid_sand="1"
+		liquid_static="1"
+		on_fire="0"
+		temperature_of_fire="10"
+		durability="16"
+		gfx_glow="0"
+		hp="2147483647"
+		platform_type="1"
+		audio_physics_material_wall="ice"
+		audio_physics_material_solid="ice"
+		show_in_creative_mode="1">
+		<Graphics color="00010000" />
+	</CellData>
+	<CellDataChild
+		_parent="community_tutorial.invisible_wall"
+		name="community_tutorial.visible_invisible_wall"
+		ui_name=" "
+		wang_color="ffAEFD0C">
+		<Graphics
+			texture_file="data/materials_gfx/earth.png">
+		</Graphics>
+	</CellDataChild>
+</Materials>

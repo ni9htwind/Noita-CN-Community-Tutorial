@@ -38,6 +38,23 @@ local name_hidden_player = mod_id .. ".hidden_player"
 return {
 	as_room = {
 		biome_map = "data/scripts/biome_map.lua",
+		pixel_scenes = {
+			files = { "data/biome/_pixel_scenes.xml" },
+			buffered = {
+				{
+					material_filename = level_path .. "invisible_wall_left.png",
+					pos_x = 2032,
+					pos_y = 720,
+					skip_edge_textures = true,
+				},
+				{
+					material_filename = level_path .. "invisible_wall_left.png",
+					pos_x = 2416,
+					pos_y = 624,
+					skip_edge_textures = true,
+				},
+			},
+		},
 		stages = {
 			start = {
 				update = function( level_state )

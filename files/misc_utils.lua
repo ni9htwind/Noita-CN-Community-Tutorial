@@ -85,10 +85,10 @@ function get_globals( filepath, extra_globals )
 	return globals
 end
 
-function dofile_wrapped( filepath )
+function dofile_wrapped( filepath, wrapper )
 	local f = loadfile( filepath )
 	local e_backup = getfenv( f )
-	local e = setmetatable( {}, { __index = e_backup } )
+	local e = setmetatable( wrapper or {}, { __index = e_backup } )
 	local result = setfenv( f, e )()
 	setfenv( f, e_backup )
 	return result

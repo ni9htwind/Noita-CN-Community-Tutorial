@@ -29,7 +29,7 @@
 		ui_name=" "
 		wang_color="ffAEFD0C">
 		<Graphics
-			texture_file="data/materials_gfx/earth.png">
+			texture_file="mods/community_tutorial/files/level_api/barrier.png">
 		</Graphics>
 	</CellDataChild>
 </Materials>

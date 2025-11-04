@@ -1,5 +1,7 @@
 local mod_path = "mods/community_tutorial/"
 
+local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
+
 local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
 
 local level_api = {
@@ -28,15 +30,15 @@ function level_api:load( level, room_index )
 	EntityAddComponent2( player_id, "MagicConvertMaterialComponent", {
 		from_material_array = "community_tutorial.invisible_wall",
 		to_material_array = "community_tutorial.visible_invisible_wall",
-		radius = 16,
+		radius = 16 + 1.5,
 		loop = true,
 		kill_when_finished = false,
 	} )
 	EntityAddComponent2( player_id, "MagicConvertMaterialComponent", {
 		from_material_array = "community_tutorial.visible_invisible_wall",
 		to_material_array = "community_tutorial.invisible_wall",
-		radius = 32,
-		min_radius = 16,
+		radius = 32 + 1.5,
+		min_radius = 16 + 1.5,
 		loop = true,
 		kill_when_finished = false,
 	} )
@@ -48,6 +50,40 @@ function level_api:load( level, room_index )
 	end
 
 	local pixel_scenes = room.path .. "pixel_scenes.xml"
+	if not ModTextFileGetContent( pixel_scenes ) then
+		local xml_content = nxml.new_element("PixelScenes")
+
+		local data = room.pixel_scenes
+
+		local files = {}
+		for _, file in ipairs( data.files or {} ) do
+			local file_element = nxml.new_element("File")
+			file_element.content = { file }
+			files[ #files + 1 ] = file_element
+		end
+		if #files > 0 then
+			xml_content:add_child( nxml.new_element( "PixelSceneFiles", nil, files ) )
+		end
+
+		local bgs = {}
+		for _, bg in ipairs( data.bgs or {} ) do
+			bgs[ #bgs + 1 ] = nxml.new_element( "Image", bg )
+		end
+		if #bgs > 0 then
+			xml_content:add_child( nxml.new_element( "BackgroundImages", nil, bgs ) )
+		end
+
+		local buffered = {}
+		for _, ps in ipairs( data.buffered or {} ) do
+			ps.skip_biome_checks = true
+			buffered[ #buffered + 1 ] = nxml.new_element( "PixelScene", ps )
+		end
+		if #buffered > 0 then
+			xml_content:add_child( nxml.new_element( "mBufferedPixelScenes", nil, buffered ) )
+		end
+
+		ModTextFileSetContent_Saved( pixel_scenes, nxml.tostring( xml_content ) )
+	end
 
 	local biome_map = room.biome_map or biome_map_blank
 

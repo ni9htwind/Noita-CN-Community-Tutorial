@@ -21,7 +21,7 @@ local function get_levels( chapter )
 		local level_lua = level_path .. "level.lua"
 		local level
 		if ModDoesFileExist( level_lua ) then
-			level = dofile( level_lua )
+			level = dofile_wrapped( level_lua, { level_path = level_path } )
 		else
 			level = {}
 		end

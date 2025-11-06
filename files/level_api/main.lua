@@ -15,12 +15,21 @@ local level_api = {
 function level_api:load( level, room_index )
 	room_index = room_index or 1
 
+	local room = level.rooms[ room_index ]
+
 	local player_id = EntityGetWithTag( "player_unit" )[1]
 
 	for _, comp_id in ipairs( EntityGetAllComponents( player_id ) ) do
 		EntityRemoveComponent( player_id, comp_id )
 	end
 	EntityLoadToEntity( "data/entities/player_base.xml", player_id )
+
+	for i = 0,7 do
+		if InputIsJoystickConnected( i ) then
+			EntitySetComponentsWithTagEnabled( player_id, "aiming_reticle", false )
+			break
+		end
+	end
 
 	for _, child_id in ipairs( EntityGetAllChildren( player_id ) ) do
 		EntityRemoveFromParent( child_id )
@@ -33,19 +42,21 @@ function level_api:load( level, room_index )
 		from_material_array = "community_tutorial.invisible_wall",
 		to_material_array = "community_tutorial.visible_invisible_wall",
 		radius = 16 + 1.5,
+		steps_per_frame = 100,
 		loop = true,
 		kill_when_finished = false,
 	} )
 	EntityAddComponent2( player_id, "MagicConvertMaterialComponent", {
 		from_material_array = "community_tutorial.visible_invisible_wall",
 		to_material_array = "community_tutorial.invisible_wall",
-		radius = 32 + 1.5,
+		radius = 48 + 1.5,
 		min_radius = 16 + 1.5,
+		steps_per_frame = 100,
 		loop = true,
 		kill_when_finished = false,
 	} )
 
-	local room = level.rooms[ room_index ]
+	EntitySetTransform( player_id, unpack( room.starting_pos ) )
 
 	if room.seed then
     	SetWorldSeed( seed )
@@ -90,8 +101,6 @@ function level_api:load( level, room_index )
 	local biome_map = room.biome_map or biome_map_blank
 
 	BiomeMapLoad_KeepPlayer( biome_map, pixel_scenes )
-
-	EntitySetTransform( player_id, room.starting_pos_x or 0, room.starting_pos_y or 0 )
 
 	self.current = {
 		level = level,

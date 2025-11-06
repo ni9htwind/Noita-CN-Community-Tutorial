@@ -1,4 +1,3 @@
-local main_lua = module_path .. "main.lua"
 function OnWorldPreUpdate()
-	dofile( main_lua )
+	dofile_once( module_path .. "main.lua" )()
 end

@@ -2,7 +2,7 @@ local camera_movement_points = {
 	{ 280, -125 },
 	{ 845, -125 },
 	{ 1060, 90 },
-	{ 1060, 840 },
+	-- { 1060, 840 },
 	{ 2160, 840 },
 }
 
@@ -37,13 +37,14 @@ local name_hidden_player = mod_id .. ".hidden_player"
 
 return {
 	as_room = {
+		starting_pos = { 227, -85 },
 		biome_map = "data/scripts/biome_map.lua",
 		pixel_scenes = {
 			files = { "data/biome/_pixel_scenes.xml" },
 			buffered = {
 				{
 					material_filename = level_path .. "invisible_wall_left.png",
-					pos_x = 2032,
+					pos_x = 2048,
 					pos_y = 720,
 					skip_edge_textures = true,
 				},

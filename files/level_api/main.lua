@@ -5,9 +5,11 @@ local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
 local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
 
 local level_api = {
-	current_level = nil,
-	current_room = nil,
-	current_room_state = {},
+	current = {
+		level = nil,
+		room_index = nil,
+		state = {},
+	},
 }
 
 function level_api:load( level, room_index )
@@ -91,32 +93,33 @@ function level_api:load( level, room_index )
 
 	EntitySetTransform( player_id, room.starting_pos_x or 0, room.starting_pos_y or 0 )
 
-	self.current_level = level
-	self.current_room_index = room_index
-
-	self.current_room_state = {}
+	self.current = {
+		level = level,
+		room_index = room_index,
+		state = {},
+	}
 
 	-- EntityLoad( "data/entities/particles/supernova.xml", 0, 0 )
 end
 
 function level_api:room_update()
-	if not self.current_level or not self.current_room_index then return end
+	if not self.current.level or not self.current.room_index then return end
 
-	local room = self.current_level.rooms[ self.current_room_index ]
+	local room = self.current.level.rooms[ self.current.room_index ]
 	local stages = room.stages
 
 	if not stages then return end
 
-	local current_room_state = self.current_room_state
+	local state = self.current.state
 
-	current_room_state.stage = current_room_state.stage or "start"
+	state.stage = state.stage or "start"
 
-	room.stages[ current_room_state.stage ].update( current_room_state )
+	room.stages[ state.stage ].update( state )
 
-	if current_room_state.finished then
-		if self.current_room_index < #self.current_level.rooms then
+	if state.finished then
+		if self.current.room_index < #self.current.level.rooms then
 			-- TODO: Maybe some in-game messages?
-			self:load( self.current_level, self.current_room_index + 1 )
+			self:load( self.current.level, self.current.room_index + 1 )
 		else
 			-- TODO
 		end

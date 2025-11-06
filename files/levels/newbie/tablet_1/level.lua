@@ -57,15 +57,15 @@ return {
 		},
 		stages = {
 			start = {
-				update = function( level_state )
-					level_state.stage = "camera_movement"
-
+				update = function( state )
 					local player_id = EntityGetWithTag( "player_unit" )[1]
 					if not player_id then return end
 
 					poof.hide( player_id, name_hidden_player )
 
-					level_state.next_point_index = 1
+					state.next_point_index = 1
+
+					state.stage = "camera_movement"
 
 					local world_state = GameGetWorldStateEntity()
 					world_state = EntityGetFirstComponentIncludingDisabled( world_state, "WorldStateComponent" )
@@ -73,17 +73,17 @@ return {
 				end,
 			},
 			camera_movement = {
-				update = function( level_state )
+				update = function( state )
 					local x, y = GameGetCameraPos()
-					local next_point_x, next_point_y = unpack( camera_movement_points[ level_state.next_point_index ] )
+					local next_point_x, next_point_y = unpack( camera_movement_points[ state.next_point_index ] )
 
 					if vec_len2( x - next_point_x, y - next_point_y ) < step_length ^ 2 then
-						level_state.next_point_index = level_state.next_point_index + 1
-						local next_point = camera_movement_points[ level_state.next_point_index ]
+						state.next_point_index = state.next_point_index + 1
+						local next_point = camera_movement_points[ state.next_point_index ]
 						if next_point then
 							next_point_x, next_point_y = unpack( next_point )
 						else
-							level_state.stage = "camera_movement_end"
+							state.stage = "camera_movement_end"
 							return
 						end
 					end
@@ -97,21 +97,21 @@ return {
 				end,
 			},
 			camera_movement_end = {
-				update = function( level_state )
+				update = function( state )
 					poof.unpolymorph( EntityGetWithName( name_hidden_player ) )
 
 					local world_state = GameGetWorldStateEntity()
 					world_state = EntityGetFirstComponentIncludingDisabled( world_state, "WorldStateComponent" )
 					ComponentSetValue2( world_state, "open_fog_of_war_everywhere", false )
 
-					level_state.stage = "fetch_tablet"
+					state.stage = "fetch_tablet"
 				end,
 			},
 			fetch_tablet = {
-				update = function( level_state )
+				update = function( state )
 					for _, tablet_id in ipairs( EntityGetWithTag( "tablet" ) or {} ) do
 						if EntityHasTag( EntityGetRootEntity( tablet_id ), "player_unit" ) then
-							level_state.finished = true
+							state.finished = true
 						end
 					end
 				end,

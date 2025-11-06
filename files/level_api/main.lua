@@ -24,11 +24,8 @@ function level_api:load( level, room_index )
 	end
 	EntityLoadToEntity( "data/entities/player_base.xml", player_id )
 
-	for i = 0,7 do
-		if InputIsJoystickConnected( i ) then
-			EntitySetComponentsWithTagEnabled( player_id, "aiming_reticle", false )
-			break
-		end
+	if GameGetIsGamepadConnected() then
+		EntitySetComponentsWithTagEnabled( player_id, "aiming_reticle", false )
 	end
 
 	for _, child_id in ipairs( EntityGetAllChildren( player_id ) ) do

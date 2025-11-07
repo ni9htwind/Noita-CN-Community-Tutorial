@@ -1,6 +1,7 @@
 local mod_path = "mods/community_tutorial/"
 
 local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
+local const = dofile_once( mod_path .. "files/constants.lua" )
 
 local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
 
@@ -14,6 +15,8 @@ local level_api = {
 
 function level_api:load( level, room_index )
 	room_index = room_index or 1
+
+	GlobalsSetValue( const.Globals_NotVanillaWorld, "1" )
 
 	local room = level.rooms[ room_index ]
 

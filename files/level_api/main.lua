@@ -60,6 +60,7 @@ function level_api:load( level, room_index )
 	} )
 
 	EntitySetTransform( player_id, unpack( room.starting_pos ) )
+	GameSetCameraPos( unpack( room.starting_pos ) )
 
 	if room.seed then
     	SetWorldSeed( seed )

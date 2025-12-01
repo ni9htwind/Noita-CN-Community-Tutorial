@@ -1,28 +1,17 @@
 local mod_path = "mods/community_tutorial/"
+local module_path = mod_path .. "files/level_api/"
 
 local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
 local const = dofile_once( mod_path .. "files/constants.lua" )
 
 local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
 
-local level_api = {
-	current = {
-		level = nil,
-		room_index = nil,
-		state = {},
-	},
-}
+local level_api = {}
 
-function level_api:load( level, room_index )
-	room_index = room_index or 1
+function level_api:init_player( player_id )
+	player_id = player_id or EntityGetWithTag( "player_unit" )[1]
 
-	GlobalsSetValue( const.Globals_NotVanillaWorld, "1" )
-
-	local room = level.rooms[ room_index ]
-
-	local player_id = EntityGetWithTag( "player_unit" )[1]
-
-	for _, comp_id in ipairs( EntityGetAllComponents( player_id ) ) do
+--[[	for _, comp_id in ipairs( EntityGetAllComponents( player_id ) ) do
 		EntityRemoveComponent( player_id, comp_id )
 	end
 	EntityLoadToEntity( "data/entities/player_base.xml", player_id )
@@ -32,14 +21,20 @@ function level_api:load( level, room_index )
 			EntitySetComponentsWithTagEnabled( player_id, "aiming_reticle", false )
 			break
 		end
+	end]]
+
+	for _, child_id in ipairs( EntityGetAllChildren( player_id ) or {} ) do
+		local name = EntityGetName( child_id )
+		if name == "inventory_quick" or name == "inventory_full" then
+			EntityRemoveFromParent( child_id )
+			EntityKill( child_id )
+
+			EntityAddChild( player_id, EntityCreateNew( name ) )
+		end
 	end
 
-	for _, child_id in ipairs( EntityGetAllChildren( player_id ) ) do
-		EntityRemoveFromParent( child_id )
-		EntityKill( child_id )
-	end
-	EntityAddChild( player_id, EntityCreateNew( "inventory_quick" ) )
-	EntityAddChild( player_id, EntityCreateNew( "inventory_full" ) )
+	local dm_comp = EntityGetFirstComponent( player_id, "DamageModelComponent" )
+	ComponentSetValue2( dm_comp, "wait_for_kill_flag_on_death", true )
 
 	EntityAddComponent2( player_id, "MagicConvertMaterialComponent", {
 		from_material_array = "community_tutorial.invisible_wall",
@@ -59,8 +54,20 @@ function level_api:load( level, room_index )
 		kill_when_finished = false,
 	} )
 
-	EntitySetTransform( player_id, unpack( room.starting_pos ) )
-	GameSetCameraPos( unpack( room.starting_pos ) )
+	EntityAddComponent2( player_id, "LuaComponent", {
+		script_damage_received = module_path .. "reset_room_on_death.lua",
+	} )
+	EntityAddComponent2( player_id, "LuaComponent", {
+		script_polymorphing_to = module_path .. "polymorph_tracker.lua",
+	} )
+end
+
+function level_api:load( level, room_index )
+	room_index = room_index or 1
+
+	GlobalsSetValue( const.Globals_NotVanillaWorld, "1" )
+
+	local room = level.rooms[ room_index ]
 
 	if room.seed then
     	SetWorldSeed( seed )
@@ -99,12 +106,24 @@ function level_api:load( level, room_index )
 			xml_content:add_child( nxml.new_element( "mBufferedPixelScenes", nil, buffered ) )
 		end
 
-		ModTextFileSetContent_Saved( pixel_scenes, nxml.tostring( xml_content ) )
+		ModTextFileSetContent( pixel_scenes, nxml.tostring( xml_content ) )
 	end
 
 	local biome_map = room.biome_map or biome_map_blank
 
+	local old_player
+
+	old_player = EntityGetWithTag( "player_unit" )[1]
+	BiomeMapLoad( biome_map_blank )
+	EntityRemoveTag( old_player, "player_unit" )
+	EntityKill( old_player )
+
+	old_player = EntityGetWithTag( "player_unit" )[1]
 	BiomeMapLoad_KeepPlayer( biome_map, pixel_scenes )
+	EntityRemoveTag( old_player, "player_unit" )
+	EntityKill( old_player )
+
+	self:init_player( EntityGetWithTag( "player_unit" )[1] )
 
 	self.current = {
 		level = level,
@@ -116,13 +135,25 @@ function level_api:load( level, room_index )
 end
 
 function level_api:room_update()
-	if not self.current.level or not self.current.room_index then return end
+	if not self.current then return end
+
+	if GlobalsGetValue( const.Globals_RestartRoom, "" ) == "1" then
+		GlobalsSetValue( const.Globals_RestartRoom, "" )
+		self:load( self.current.level, self.current.room_index )
+		return
+	end
 
 	local room = self.current.level.rooms[ self.current.room_index ]
+
+	if not self.current.starting_pos_applied then
+		self.current.starting_pos_applied = true
+		local player_id = EntityGetWithTag( "player_unit" )[1]
+		EntitySetTransform( player_id, unpack( room.starting_pos ) )
+		GameSetCameraPos( unpack( room.starting_pos ) )
+	end
+
 	local stages = room.stages
-
 	if not stages then return end
-
 	local state = self.current.state
 
 	state.stage = state.stage or "start"

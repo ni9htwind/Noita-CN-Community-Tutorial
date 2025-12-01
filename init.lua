@@ -1,7 +1,7 @@
 mod_id = "community_tutorial"
 mod_path = "mods/community_tutorial/"
 
-ModTextFileSetContent_Saved = ModTextFileSetContent
+setmetatable( _G, { __index = { ModTextFileSetContent = ModTextFileSetContent } } )
 
 dofile_once( mod_path .. "files/misc_utils.lua" )
 
@@ -16,6 +16,10 @@ ModTextFileSetContent( main, main_content .. translations:gsub( "^[^\n]*\n", "",
 
 dofile_once( mod_path .. "libs/DialogSystem/init.lua" )( mod_path .. "libs/DialogSystem" )
 dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
+
+const = dofile_once( mod_path .. "files/constants.lua" )
+chapters = dofile_once_wrapped( mod_path .. "files/levels/get_levels_data.lua" )
+level_api = dofile_once( mod_path .. "files/level_api/main.lua" )
 
 local modules = {
 	"gui",
@@ -63,8 +67,8 @@ end
 
 for name, funcs in pairs( callbacks ) do
 	if #funcs > 0 then
-		_G[ name ] = function()
-			for _, f in ipairs( funcs ) do f() end
+		_G[ name ] = function( ... )
+			for _, f in ipairs( funcs ) do f( ... ) end
 		end
 	end
 end

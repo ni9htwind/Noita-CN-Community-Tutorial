@@ -25,15 +25,7 @@ local function dofile_mask( env )
 	local loadonce, loaded = {}, {}
 	local mask = {}
 	mask.do_mod_appends = function( filepath )
-		local appends = {}
-		local dofile_backup = _G.dofile
-		_G.dofile = function( filepath )
-			appends[ #appends + 1 ] = filepath
-		end
-		do_mod_appends( filepath )
-		_G.dofile = dofile_backup
-
-		for _, filepath in ipairs( appends ) do
+		for _, filepath in ipairs( ModLuaFileGetAppends( filepath ) ) do
 			mask.dofile( filepath )
 		end
 	end
@@ -73,7 +65,7 @@ function get_globals( filepath, extra_globals )
 	local f = loadfile( filepath )
 
 	local e = extra_globals or {}
-	local mask = setmetatable( dofile_mask( e ), { __index = _G } )
+	local mask = setmetatable( dofile_mask( e ), { __index = getfenv(2) } )
 	setmetatable( e, { __index = mask } )
 	setfenv( f, e )()
 

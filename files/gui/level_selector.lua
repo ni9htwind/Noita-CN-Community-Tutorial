@@ -1,3 +1,11 @@
+local chapters_visible = {}
+
+for i, chapter in ipairs( chapters ) do
+	if not chapter.hidden then
+		chapters_visible[ #chapters_visible + 1 ] = chapter
+	end
+end
+
 local main_bar_y = 0
 local main_bar_width_percent = 60 / 100
 local main_bar_height = 12
@@ -112,7 +120,7 @@ return function()
 	local button_close_y = main_bar_y + 8 / 2
 	GuiZSetForNextWidget( gui, -1 )
 	if GuiImageButton( gui, get_id(), button_close_x, button_close_y, "", image_path .. "button_close.png" ) then
-		ModTextFileSetContent_Saved( const.Vfile_LevelsGuiShowing, "" )
+		ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "" )
 	end
 
 	if level_selected then
@@ -148,7 +156,7 @@ return function()
 		for i, room in ipairs( level_selected.rooms ) do
 			if GuiImageButton( gui, get_id(), room_button_x, room_button_y, "", transparent_image( room_button_size ) ) then
 				level_api:load( level_selected, i )
-				ModTextFileSetContent_Saved( const.Vfile_LevelsGuiShowing, "" )
+				ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "" )
 			end
 
 			local _,_,hover = previous_data( gui )
@@ -175,7 +183,7 @@ return function()
 			if GuiImageButton( gui, get_id(), level_button_x, level_button_y, "", transparent_image( level_button_size ) ) then
 				if level.num_rooms == 1 then
 					level_api:load( level )
-					ModTextFileSetContent_Saved( const.Vfile_LevelsGuiShowing, "" )
+					ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "" )
 				else
 					level_selected = level
 				end

@@ -14,7 +14,7 @@ end
 ]]
 
 local function append_spawn_func( script, color_argb, entity_file )
-	ModTextFileSetContent_Saved( script, pattern:format( ModTextFileGetContent( script ), color_argb, entity_file ) )
+	ModTextFileSetContent( script, pattern:format( ModTextFileGetContent( script ), color_argb, entity_file ) )
 end
 
 local function register_entity_spawn( t )

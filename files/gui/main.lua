@@ -1,35 +1,17 @@
-dofile_once( mod_path .. "files/gui/utils.lua" )
+dofile_once( module_path .. "utils.lua" )
 dofile_once( "data/scripts/lib/utilities.lua" )
 dofile_once( mod_path .. "files/misc_utils.lua" )
 
 image_path = module_path .. "images/"
 
-const = dofile_once( mod_path .. "files/constants.lua" )
-
-chapters = dofile_once_wrapped( mod_path .. "files/levels/get_levels_data.lua" )
-
-level_api = dofile_once( mod_path .. "files/level_api/main.lua" )
-
-chapters_visible = {}
-
-for i, chapter in ipairs( chapters ) do
-	if not chapter.hidden then
-		chapters_visible[ #chapters_visible + 1 ] = chapter
-	end
-end
-
 local id_allocator = dofile_once( module_path .. "id_allocator.lua" )
 get_id = id_allocator.get_id
-
-ModTextFileSetContent_Saved = ModTextFileSetContent_Saved or ModTextFileSetContent
 
 gui = GuiCreate()
 
 return function()
 	now = GameGetFrameNum()
 	id_allocator.new_frame()
-
-	level_api:room_update()
 
 	GuiStartFrame( gui )
 

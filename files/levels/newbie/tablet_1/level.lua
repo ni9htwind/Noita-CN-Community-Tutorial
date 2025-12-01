@@ -12,7 +12,6 @@ local smoothe_coeff = 20
 local step_length = 6
 
 local poof = dofile_once( mod_path .. "libs/poof/main.lua" )
-poof.ModTextFileSetContent = ModTextFileSetContent_Saved
 
 local function vec_clone( vec )
 	return { vec[1], vec[2] }

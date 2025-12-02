@@ -77,13 +77,12 @@ function get_globals( filepath, extra_globals )
 	return globals
 end
 
-function dofile_wrapped( filepath, wrapper )
-	local f = loadfile( filepath )
-	local e_backup = getfenv( f )
-	local e = setmetatable( wrapper or {}, { __index = e_backup } )
-	local result = setfenv( f, e )()
-	setfenv( f, e_backup )
-	return result
+local function extract_folder( source )
+	return source:match("^(.*/)")
 end
+extract_folder = memoize( extract_folder )
 
-dofile_once_wrapped = memoize( dofile_wrapped )
+local finfo = jit.util.funcinfo
+function this_folder()
+	return extract_folder( finfo( setfenv( 2, getfenv(2) ) ).source )
+end

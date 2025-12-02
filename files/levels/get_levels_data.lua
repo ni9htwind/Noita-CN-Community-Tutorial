@@ -19,9 +19,8 @@ local function get_levels( chapter )
 	for i, level_id in ipairs( chapter.level_list or {} ) do
 		local level_path = table.concat{ chapter.path, level_id, "/" }
 		local level_lua = level_path .. "level.lua"
-		local level
 		if ModDoesFileExist( level_lua ) then
-			level = dofile_wrapped( level_lua, { level_path = level_path } )
+			level = dofile( level_lua )
 		else
 			level = {}
 		end

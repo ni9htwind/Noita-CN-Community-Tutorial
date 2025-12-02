@@ -1,3 +1,4 @@
+local module_path = this_folder()
 local const = dofile_once( mod_path .. "files/constants.lua" )
 
 local function set_pixel( pixel_scene_image, x, y, color )

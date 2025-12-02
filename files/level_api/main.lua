@@ -1,8 +1,6 @@
-local mod_path = "mods/community_tutorial/"
-local module_path = mod_path .. "files/level_api/"
+local module_path = this_folder()
 
 local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
-local const = dofile_once( mod_path .. "files/constants.lua" )
 
 local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
 

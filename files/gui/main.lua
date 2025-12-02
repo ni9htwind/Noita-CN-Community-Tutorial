@@ -1,3 +1,5 @@
+local module_path = this_folder()
+
 dofile_once( module_path .. "utils.lua" )
 dofile_once( "data/scripts/lib/utilities.lua" )
 dofile_once( mod_path .. "files/misc_utils.lua" )

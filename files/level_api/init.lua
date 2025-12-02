@@ -1,5 +1,5 @@
+local module_path = this_folder()
 local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
-local const = dofile_once( mod_path .. "files/constants.lua" )
 
 local biomes_file = "data/biome/_biomes_all.xml"
 local biomes = nxml.parse( ModTextFileGetContent( biomes_file ) )
@@ -15,7 +15,9 @@ ModTextFileSetContent( biomes_file, tostring( biomes ) )
 
 ModMaterialsFileAdd( module_path .. "materials.xml" )
 
-function OnWorldPreUpdate()
+local callbacks = {}
+
+function callbacks.OnWorldPreUpdate()
 	do
 		local polymorphed_player = ModTextFileGetContent( const.Vfile_PlayerPolymorphingTo )
 		if polymorphed_player and polymorphed_player ~= "" then
@@ -31,3 +33,5 @@ function OnWorldPreUpdate()
 	end
 	level_api:room_update()
 end
+
+return callbacks

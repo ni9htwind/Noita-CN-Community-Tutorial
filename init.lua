@@ -18,7 +18,7 @@ dofile_once( mod_path .. "libs/DialogSystem/init.lua" )( mod_path .. "libs/Dialo
 dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
 
 const = dofile_once( mod_path .. "files/constants.lua" )
-chapters = dofile_once_wrapped( mod_path .. "files/levels/get_levels_data.lua" )
+chapters = dofile_once( mod_path .. "files/levels/get_levels_data.lua" )
 level_api = dofile_once( mod_path .. "files/level_api/main.lua" )
 
 local modules = {
@@ -53,13 +53,10 @@ for _, module in ipairs( modules ) do
 	local init_lua = module_path .. "init.lua"
 	if not ModDoesFileExist( init_lua ) then goto continue end
 
-	local globals = get_globals( init_lua, { module_path = module_path } )
+	local module_callbacks = dofile( init_lua ) or {}
 
 	for name, funcs in pairs( callbacks ) do
-		local f = globals[ name ]
-		if f then
-			funcs[ #funcs + 1 ] = f
-		end
+		funcs[ #funcs + 1 ] = module_callbacks[ name ]
 	end
 
 	::continue::

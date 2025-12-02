@@ -1,3 +1,5 @@
+local level_path = this_folder()
+
 local camera_movement_points = {
 	{ 280, -125, 40 },
 	{ 845, -125 },

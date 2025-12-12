@@ -1,4 +1,4 @@
-local level_path = level_path
+local level_path = this_folder()
 return {
 	as_room = {
 		starting_pos = { 640, 360 },

@@ -1,0 +1,50 @@
+<Entity tags="prop,hittable,mortal,homing_target,enemy,teleportable_NOT,polymorphable_NOT,spell_lab_shugged_target_dummy" >
+	<Base file="mods/community_tutorial/files/level_api/dummy_target/base.xml" include_children="1" />
+
+	<VelocityComponent gravity_y="0" terminal_velocity="0" />
+	<SimplePhysicsComponent can_go_up="0" />
+	<SpriteAnimatorComponent/>
+	<StatusEffectDataComponent/>
+	<SpriteStainsComponent/>
+	<SpriteComponent
+		image_file="mods/community_tutorial/files/level_api/dummy_target/sprite.png"
+		offset_x="10.5"
+		offset_y="14">
+	</SpriteComponent>
+	<SpriteOffsetAnimatorComponent
+		y_amount="2"
+		y_speed="2.5"
+		sprite_id="0">
+	</SpriteOffsetAnimatorComponent>
+	<AnimalAIComponent
+		attack_melee_enabled="0"
+		needs_food="0"
+		sense_creatures="0"
+		can_fly="0"
+		can_walk="0">
+	</AnimalAIComponent>
+	<DamageModelComponent
+		hp="1"
+		materials_that_damage="acid,lava,poison,blood_cold,blood_cold_vapour,radioactive_gas,radioactive_gas_static,rock_static_radioactive,rock_static_poison,ice_radioactive_static,ice_radioactive_glass,ice_acid_static,ice_acid_glass,rock_static_cursed,poo_gas" 
+		materials_how_much_damage="0.004,0.004,0.001,0.0008,0.0007,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.005,0.00001"
+		physics_objects_damage="1"
+		ragdoll_filenames_file="data/ragdolls/player/filenames.txt"
+		ragdoll_material="meat"
+		ragdoll_offset_y="-6"
+		blood_multiplier="0"
+		wait_for_kill_flag_on_death="1"
+		fire_probability_of_ignition="1.0"
+		fire_damage_amount="0.2">
+	</DamageModelComponent>
+	<HitboxComponent
+		aabb_min_x="-10.5"
+		aabb_max_x="10.5"
+		aabb_min_y="-13"
+		aabb_max_y="13">
+	</HitboxComponent>
+<!-- 	<GenomeDataComponent
+		herd_id="orcs"
+		food_chain_rank="9"
+		is_predator="1">
+	</GenomeDataComponent> -->
+</Entity>

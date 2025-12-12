@@ -23,9 +23,7 @@ local function get_levels( chapter )
 		local level_path = table.concat{ chapter.path, level_id, "/" }
 		local level_lua = level_path .. "level.lua"
 		if ModDoesFileExist( level_lua ) then
-			_G.level_path = level_path
 			level = dofile( level_lua )
-			_G.level_path = nil
 		else
 			level = {}
 		end

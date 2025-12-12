@@ -1,10 +1,4 @@
-local chapters_visible = {}
-
-for i, chapter in ipairs( chapters ) do
-	if not chapter.hidden then
-		chapters_visible[ #chapters_visible + 1 ] = chapter
-	end
-end
+local image_path = this_folder() .. "images/"
 
 local main_bar_y = 0
 local main_bar_width_percent = 60 / 100
@@ -39,7 +33,9 @@ local level_large_button_size = 64
 local level_large_button_scale = level_large_button_size / ( level_button_size / level_button_scale )
 local level_large_button_y_percent = 40 / 100
 
-local chapter_selected = chapters_visible[1]
+local lounge = chapters.special.levels.lounge
+
+local chapter_selected = chapters_ordered[1]
 local chapter_highlight_last_x
 local chapter_highlight_dest_x
 
@@ -65,14 +61,14 @@ return function()
 	local main_bar_x = ( screen_width - main_bar_width ) / 2
 	GuiImageNinePiece( gui, get_id(), main_bar_x + 2, main_bar_y + 2, main_bar_width - 4, 12, 1, image_path .. "9piece0_bar.png" )
 
-	local chapter_selector_width = #chapters_visible * ( chapter_width + 2 + 2 )
+	local chapter_selector_width = #chapters_ordered * ( chapter_width + 2 + 2 )
 	local chapter_selector_x = ( screen_width - chapter_selector_width ) / 2
 	GuiZSetForNextWidget( gui, -1 )
 	GuiImageNinePiece( gui, get_id(), chapter_selector_x, chapter_selector_y + 2, chapter_selector_width, chapter_selector_height, 1,
 		image_path .. "9piece0_bar_darker.png" )
 
 	local chapter_x = chapter_selector_x
-	for i, chapter in ipairs( chapters_visible ) do
+	for i, chapter in ipairs( chapters_ordered ) do
 		if chapter.hidden then goto continue end
 
 		GuiZSetForNextWidget( gui, -4 )
@@ -112,15 +108,45 @@ return function()
 
 		GuiZSetForNextWidget( gui, -2 )
 		GuiImageNinePiece( gui, get_id(), chapter_highlight_last_x, chapter_selector_y + 2,
-			chapter_width + 2 + 2, chapter_height, 1, image_path .. "button_chapter_highlight.png" )
+			chapter_width + 2 + 2, chapter_height, 1, image_path .. "9piece0_highlight.png" )
 	end
 
 	local main_bar_right_end = screen_width - main_bar_x
+
 	local button_close_x = main_bar_right_end - 4 - 8
 	local button_close_y = main_bar_y + 8 / 2
 	GuiZSetForNextWidget( gui, -1 )
 	if GuiImageButton( gui, get_id(), button_close_x, button_close_y, "", image_path .. "button_close.png" ) then
 		ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "" )
+	end
+
+	do
+		local button_lounge_width, button_lounge_height = 40, chapter_height
+		local button_lounge_x = button_close_x - button_lounge_width - 16
+		local button_lounge_y = chapter_selector_y
+		GuiZSetForNextWidget( gui, -4 )
+		GuiImageButton( gui, get_id(), button_lounge_x, button_lounge_y + 2, "",
+			transparent_image( button_lounge_width, button_lounge_height ) )
+
+		local left_click,_,hovered = previous_data( gui )
+		if left_click then
+			level_api:load( lounge )
+			ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "" )
+		end
+
+		GuiZSetForNextWidget( gui, -3 )
+		local _, text_height = GuiGetTextDimensions( gui, wrap_key( "enter_lounge" ) )
+		local text_y = main_bar_vertical_center - text_height / 2
+		GuiTextCentered( gui, button_lounge_x + ( button_lounge_width + 2 ) / 2, text_y, wrap_key( "enter_lounge" ) )
+
+		GuiZSetForNextWidget( gui, -2 )
+		if hovered then
+			GuiImageNinePiece( gui, get_id(), button_lounge_x, button_lounge_y + 2,
+			button_lounge_width + 2 + 2, button_lounge_height, 1, image_path .. "9piece0_highlight.png" )
+		else
+			GuiImageNinePiece( gui, get_id(), button_lounge_x, button_lounge_y + 2,
+			button_lounge_width + 2 + 2, button_lounge_height, 1, image_path .. "9piece0_bar_darker.png" )
+		end
 	end
 
 	if level_selected then
@@ -175,9 +201,9 @@ return function()
 		local left_end = horizontal_centered_x( level_button_num_per_row, level_button_size )
 		local level_button_x = left_end
 		local level_button_y = screen_height * level_button_first_row_y_percent
-		local num_levels = #chapter_selected.levels
+		local num_levels = #chapter_selected.levels_ordered
 		for i = ( level_page - 1 ) * 30 + 1, math.min( level_page * 30, num_levels ) do
-			local level = chapter_selected.levels[ i ]
+			local level = chapter_selected.levels_ordered[ i ]
 
 			GuiZSetForNextWidget( gui, -1 )
 			if GuiImageButton( gui, get_id(), level_button_x, level_button_y, "", transparent_image( level_button_size ) ) then

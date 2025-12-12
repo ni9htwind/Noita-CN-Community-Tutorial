@@ -153,10 +153,14 @@ return {
 				update = function( state )
 					for _, tablet_id in ipairs( EntityGetWithTag( "tablet" ) or {} ) do
 						if EntityHasTag( EntityGetRootEntity( tablet_id ), "player_unit" ) then
-							state.finished = true
+							EntityLoad( mod_path .. "files/level_api/portal_next_room/entity.xml", 2335, 787 )
+							state.stage = "until_next_room"
 						end
 					end
 				end,
+			},
+			until_next_room = {
+				update = function( state ) end,
 			},
 		},
 	},

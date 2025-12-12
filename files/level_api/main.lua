@@ -1,6 +1,7 @@
 local module_path = this_folder()
 
 local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
+local poof = dofile_once( mod_path .. "libs/poof/main.lua" )
 
 local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
 
@@ -154,18 +155,25 @@ function level_api:room_update()
 	if not stages then return end
 	local state = self.current.state
 
+	if ModTextFileGetContent( const.Vfile_EnterNextRoom ) == "1" then
+		ModTextFileSetContent( const.Vfile_EnterNextRoom, "" )
+		local next_room_index = self.current.room_index + 1
+		if next_room_index > #self.current.level.rooms then
+			print_error( "No next room" )
+		else
+			self:load( self.current.level, next_room_index )
+		end
+	end
+	-- if then
+	-- 	local player_id = EntityGetWithTag( "player_unit" )[1]
+	-- 	if player_id then
+	-- 		poof.hide( player_id, "name" )
+	-- 	end
+	-- end
+
 	state.stage = state.stage or "start"
 
 	room.stages[ state.stage ].update( state )
-
-	if state.finished then
-		if self.current.room_index < #self.current.level.rooms then
-			-- TODO: Maybe some in-game messages?
-			self:load( self.current.level, self.current.room_index + 1 )
-		else
-			-- TODO
-		end
-	end
 end
 
 return level_api

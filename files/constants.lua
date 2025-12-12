@@ -7,4 +7,6 @@ return {
 	Globals_NotVanillaWorld = globals_prefix .. "not_vanilla_world",
 	Globals_RestartRoom = globals_prefix .. "restart_room",
 	Vfile_PlayerPolymorphingTo = vfile_folder .. "player_polymorphing_to.txt",
+	-- Vfile_LevelFinished = vfile_folder .. "level_finished.txt",
+	Vfile_EnterNextRoom = vfile_folder .. "enter_next_room.txt",
 }

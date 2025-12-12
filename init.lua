@@ -18,7 +18,7 @@ dofile_once( mod_path .. "libs/DialogSystem/init.lua" )( mod_path .. "libs/Dialo
 dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
 
 const = dofile_once( mod_path .. "files/constants.lua" )
-chapters = dofile_once( mod_path .. "files/levels/get_levels_data.lua" )
+chapters, chapters_ordered = unpack( dofile_once( mod_path .. "files/levels/get_levels_data.lua" ) )
 level_api = dofile_once( mod_path .. "files/level_api/main.lua" )
 
 local modules = {

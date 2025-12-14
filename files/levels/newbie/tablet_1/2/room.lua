@@ -1,8 +1,6 @@
-local mod_path = "mods/community_tutorial/"
 local room_path = this_folder()
 
 return {
-	starting_pos = { 300, 185 },
 	biome_map = mod_path .. "files/level_api/biome_map_blank.lua",
 	pixel_scenes = {
 		buffered = {
@@ -13,8 +11,8 @@ return {
 				pos_y = 0,
 			},
 			{
-				just_load_an_entity = mod_path .. "files/veteran/entity.xml",
-				pos_x = 200,
+				just_load_an_entity = room_path .. "veteran.xml",
+				pos_x = 225,
 				pos_y = 186,
 			},
 			{
@@ -39,6 +37,7 @@ return {
 			},
 		},
 	},
+	starting_pos = { 300, 185 },
 	stages = {
 		start = {
 			update = function( state )
@@ -49,12 +48,11 @@ return {
 				local tablet_id = EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
 				GamePickUpInventoryItem( player_id, tablet_id )
 
-				state.stage = "todo"
+				state.stage = "wait_for_veteran"
 			end,
 		},
-		todo = {
-			update = function( state )
-			end,
+		wait_for_veteran = {
+			update = function( state ) end,
 		},
 	},
 }

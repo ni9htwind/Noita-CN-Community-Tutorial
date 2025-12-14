@@ -1,8 +1,9 @@
 local mod_path = "mods/community_tutorial/"
 
-dofile_once( mod_path .. "files/misc_utils.lua" )
 local const = dofile_once( mod_path .. "files/constants.lua" )
 local dialog_system = dofile_once( "mods/community_tutorial/libs/DialogSystem/dialog_system.lua" )
+
+dofile_once( mod_path .. "files/misc_utils.lua" )
 
 local num_tips = tonumber( GameTextGetTranslatedOrNot( "$community_tutorial_tips_max_index" ) )
 
@@ -13,7 +14,7 @@ local main_dialog = {
 	text = nil, -- set later
 	options = {
 		{
-			text = "我想进入教学关卡",
+			text = GameTextGet( wrap_key( "dialog_option_open_level_selector" ) ),
 			func = function( dialog )
 				ModTextFileSetContent( const.Vfile_LevelsGuiShowing, "1" )
 			end,

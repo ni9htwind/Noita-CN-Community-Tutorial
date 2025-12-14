@@ -5,6 +5,10 @@ function wrap_key( key )
 	return key_prefix .. key
 end
 
+function get_text( key )
+	return GameTextGetTranslatedOrNot( wrap_key( key ) )
+end
+
 function optional_call( f, ... )
 	if f then return f( ... ) end
 end

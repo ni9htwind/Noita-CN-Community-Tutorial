@@ -1,15 +1,47 @@
-<Entity tags="prop,hittable,mortal,homing_target,enemy,teleportable_NOT,polymorphable_NOT,spell_lab_shugged_target_dummy" >
-	<Base file="mods/community_tutorial/files/level_api/dummy_target/base.xml" include_children="1" />
+<Entity tags="prop,hittable,mortal,homing_target,enemy,teleportable_NOT,polymorphable_NOT" >
+	<!-- <Base file="mods/community_tutorial/files/level_api/dummy_target/base.xml" include_children="1" /> -->
+	<LuaComponent
+		script_damage_received="mods/community_tutorial/files/level_api/dummy_target/script_damage_received.lua"
+		execute_every_n_frame="-1">
+	</LuaComponent>
+	<VariableStorageComponent name="community_tutorial.last_frame_damage" />
 
+	<Entity tags="community_tutorial.dummy_target_child" >
+		<!-- <InheritTransformComponent only_position="1" /> -->
+		<SpriteComponent
+			_tags="community_tutorial.last_frame_damage"
+			image_file="mods/community_tutorial/files/level_api/dummy_target/font.xml"
+			emissive="1"
+			is_text_sprite="1"
+			offset_x="7.5"
+			offset_y="21"
+			update_transform="1"
+			update_transform_rotation="0"
+			text="0.00"
+			has_special_scale="1"
+			special_scale_x="1"
+			special_scale_y="1"
+			z_index="-9000"
+			never_ragdollify_on_death="1">
+		</SpriteComponent>
+	</Entity>
+
+	<CharacterCollisionComponent/>
+	<CharacterPlatformingComponent/>
+	<CharacterDataComponent
+		collision_aabb_min_x="-3"
+		collision_aabb_max_x="3"
+		collision_aabb_min_y="-7"
+		collision_aabb_max_y="3">
+	</CharacterDataComponent>
 	<VelocityComponent gravity_y="0" terminal_velocity="0" />
-	<SimplePhysicsComponent can_go_up="0" />
 	<SpriteAnimatorComponent/>
 	<StatusEffectDataComponent/>
 	<SpriteStainsComponent/>
 	<SpriteComponent
 		image_file="mods/community_tutorial/files/level_api/dummy_target/sprite.png"
 		offset_x="10.5"
-		offset_y="14">
+		offset_y="18">
 	</SpriteComponent>
 	<SpriteOffsetAnimatorComponent
 		y_amount="2"
@@ -37,14 +69,21 @@
 		fire_damage_amount="0.2">
 	</DamageModelComponent>
 	<HitboxComponent
-		aabb_min_x="-10.5"
-		aabb_max_x="10.5"
-		aabb_min_y="-13"
-		aabb_max_y="13">
+		aabb_min_x="-8"
+		aabb_max_x="8"
+		aabb_min_y="-12"
+		aabb_max_y="4">
 	</HitboxComponent>
 <!-- 	<GenomeDataComponent
 		herd_id="orcs"
 		food_chain_rank="9"
 		is_predator="1">
 	</GenomeDataComponent> -->
+	<VariableStorageComponent _tags= "invincible" />
+	<VariableStorageComponent _tags= "invincible" />
+	<LuaComponent
+		script_source_file="mods/community_tutorial/files/level_api/dummy_target/script_pos_hold.lua"
+		execute_every_n_frame="1"
+		execute_on_added="1">
+	</LuaComponent>
 </Entity>

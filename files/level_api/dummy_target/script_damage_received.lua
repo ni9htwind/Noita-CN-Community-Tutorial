@@ -45,7 +45,7 @@ function damage_received( damage, message, entity_thats_responsible, is_fatal )
 	local last_frame_damage_comp = get_variable_storage_component( entity_id, mod_prefix .. "last_frame_damage" )
 
 	local last_frame_damage
-	if GameGetFrameNum() == ComponentGetValue2( dm_comp, "mLastDamageFrame" ) then
+	if GameGetFrameNum() - ComponentGetValue2( dm_comp, "mLastDamageFrame" ) < 60 then
 		last_frame_damage = ComponentGetValue2( last_frame_damage_comp, "value_float" )
 	else
 		last_frame_damage = 0
@@ -55,4 +55,8 @@ function damage_received( damage, message, entity_thats_responsible, is_fatal )
 
 	ComponentSetValue2( last_frame_damage_comp, "value_float", last_frame_damage )
 	set_text( entity_id, mod_prefix .. "last_frame_damage", last_frame_damage )
+
+
+	local cd_comp = EntityGetFirstComponent( entity_id, "CharacterDataComponent" )
+	ComponentSetValue2( cd_comp, "mVelocity", 0, 0 )
 end

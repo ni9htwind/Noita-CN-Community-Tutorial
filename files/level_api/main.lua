@@ -130,6 +130,12 @@ function level_api:load( level, room_index )
 		state = {},
 	}
 
+	local world_state = EntityGetFirstComponent( GameGetWorldStateEntity(), "WorldStateComponent" )
+	ComponentSetValue2( world_state, "time_dt", 0 )
+	ComponentSetValue2( world_state, "time", 0 )
+	ComponentSetValue2( world_state, "time_total", 0 )
+	ComponentSetValue2( world_state, "intro_weather", true )
+
 	-- EntityLoad( "data/entities/particles/supernova.xml", 0, 0 )
 end
 

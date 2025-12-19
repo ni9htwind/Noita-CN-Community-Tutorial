@@ -164,18 +164,12 @@ function level_api:room_update()
 	if ModTextFileGetContent( const.Vfile_EnterNextRoom ) == "1" then
 		ModTextFileSetContent( const.Vfile_EnterNextRoom, "" )
 		local next_room_index = self.current.room_index + 1
-		if next_room_index > #self.current.level.rooms then
-			print_error( "No next room" )
-		else
+		if next_room_index <= #self.current.level.rooms then
 			self:load( self.current.level, next_room_index )
+		else
+			self:load( lounge )
 		end
 	end
-	-- if then
-	-- 	local player_id = EntityGetWithTag( "player_unit" )[1]
-	-- 	if player_id then
-	-- 		poof.hide( player_id, "name" )
-	-- 	end
-	-- end
 
 	state.stage = state.stage or "start"
 

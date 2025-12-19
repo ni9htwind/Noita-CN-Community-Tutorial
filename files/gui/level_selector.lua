@@ -33,8 +33,6 @@ local level_large_button_size = 64
 local level_large_button_scale = level_large_button_size / ( level_button_size / level_button_scale )
 local level_large_button_y_percent = 40 / 100
 
-local lounge = chapters.special.levels.lounge
-
 local chapter_selected = chapters_ordered[1]
 local chapter_highlight_last_x
 local chapter_highlight_dest_x

@@ -39,20 +39,16 @@ return {
 	},
 	starting_pos = { 300, 185 },
 	stages = {
-		start = {
-			update = function( state )
-				local player_id = EntityGetWithTag( "player_unit" )[1]
-				if not player_id then return end
-
-				local x, y = EntityGetTransform( player_id )
-				local tablet_id = EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
-				GamePickUpInventoryItem( player_id, tablet_id )
-
-				state.stage = "wait_for_veteran"
-			end,
-		},
-		wait_for_veteran = {
-			update = function( state ) end,
-		},
+		start = function( state )
+			local player_id = EntityGetWithTag( "player_unit" )[1]
+			if not player_id then return end
+			
+			local x, y = EntityGetTransform( player_id )
+			local tablet_id = EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
+			GamePickUpInventoryItem( player_id, tablet_id )
+			
+			state.stage = "wait_for_veteran"
+		end,
+		wait_for_veteran = function( state ) end,
 	},
 }

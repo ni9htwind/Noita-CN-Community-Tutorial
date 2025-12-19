@@ -1,0 +1,18 @@
+<Entity>
+	<SpriteComponent
+		image_file="mods/community_tutorial/files/level_api/sign/sprite.png"
+		offset_x="11.5"
+		offset_y="21">
+	</SpriteComponent>
+	<LuaComponent
+		script_interacting="mods/community_tutorial/files/level_api/sign/script.lua"
+		script_source_file="mods/community_tutorial/files/level_api/sign/script.lua"
+		execute_every_n_frame="-1"
+		execute_on_added="1"
+		enable_coroutines="1">
+	</LuaComponent>
+	<InteractableComponent ui_text="$community_tutorial_sign_interact" radius="16" />
+	<VariableStorageComponent name="key" />
+	<VariableStorageComponent name="line_num_min" />
+	<VariableStorageComponent name="line_num_max" />
+</Entity>

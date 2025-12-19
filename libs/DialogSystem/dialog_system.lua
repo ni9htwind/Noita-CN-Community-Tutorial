@@ -140,6 +140,7 @@ local dialog_system = {
   dialog_box_height = config.dialog_box_height or 70,
   distance_to_close = config.distance_to_close,
   disable_controls = config.disable_controls or false,
+  is_open = false,
 }
 
 -- DEBUG_SKIP_ANIMATIONS = true
@@ -168,13 +169,12 @@ local gui = __dialog_system_gui
 
 local routines = {}
 
-local is_open = false
 local is_text_writing = false
 local skip_dialogue = false
 dialog_system.open_dialog = function(message)
   skip_dialogue = false
-  if is_open then return end
-  is_open = true
+  if dialog_system.is_open then return end
+  dialog_system.is_open = true
   -- Remove whitespace before and after every line
   message.text = message.text:gsub("^%s*", ""):gsub("\n%s*", "\n"):gsub("%s*(?:\n)", "")
 
@@ -268,7 +268,7 @@ dialog_system.open_dialog = function(message)
         dialog.transition_state = dialog.transition_state - (2 / 32)
         wait(0)
       end
-      is_open = false
+      dialog_system.is_open = false
       if type(on_closed_callback) == "function" then
         on_closed_callback()
       end
@@ -292,7 +292,7 @@ dialog_system.open_dialog = function(message)
     if dialog_system.disable_controls then
       set_controls_enabled(false)
     end
-    while is_open do
+    while dialog_system.is_open do
       if is_text_writing and is_interact_key_down() then
         skip_dialogue = true
         -- To resume in case of the pause command

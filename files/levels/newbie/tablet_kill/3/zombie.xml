@@ -1,0 +1,9 @@
+<Entity>
+	<Base file="data/entities/animals/zombie.xml" include_children="1" >
+		<AnimalAIComponent max_distance_to_cam_to_start_hunting="70" />
+	</Base>
+	<Base file="mods/community_tutorial/files/level_api/portal_dropper/base.xml" >
+		<VariableStorageComponent value_int="130" />
+		<VariableStorageComponent value_int="95" />
+	</Base>
+</Entity>

@@ -179,7 +179,7 @@ function level_api:room_update()
 
 	state.stage = state.stage or "start"
 
-	room.stages[ state.stage ].update( state )
+	room.stages[ state.stage ]( state )
 end
 
 return level_api

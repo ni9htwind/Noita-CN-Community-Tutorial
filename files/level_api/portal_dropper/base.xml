@@ -1,0 +1,8 @@
+<Entity>
+	<LuaComponent
+		script_death="mods/community_tutorial/files/level_api/portal_dropper/script.lua"
+		execute_every_n_frame="-1">
+	</LuaComponent>
+	<VariableStorageComponent name="x" />
+	<VariableStorageComponent name="y" />
+</Entity>

@@ -1,0 +1,14 @@
+<Entity>
+	<Base file="data/entities/animals/tank.xml" include_children="1" >
+		<CharacterPlatformingComponent
+			velocity_min_x="0"
+			velocity_max_x="0"
+			velocity_min_y="0"
+			velocity_max_y="0">
+		</CharacterPlatformingComponent>
+	</Base>
+	<Base file="mods/community_tutorial/files/level_api/portal_dropper/base.xml" >
+		<VariableStorageComponent value_int="147" />
+		<VariableStorageComponent value_int="93" />
+	</Base>
+</Entity>

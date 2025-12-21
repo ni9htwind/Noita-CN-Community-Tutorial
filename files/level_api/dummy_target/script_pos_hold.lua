@@ -4,6 +4,10 @@ local cd_comp = EntityGetFirstComponent( entity_id, "CharacterDataComponent" )
 ComponentSetValue2( cd_comp, "mVelocity", 0, 0 )
 
 local child_id = EntityGetAllChildren( entity_id )[1]
+local it_comp = EntityGetFirstComponent( child_id, "InheritTransformComponent" )
+if it_comp then
+	EntitySetComponentIsEnabled( child_id, it_comp, false )
+end
 
 local x, y = EntityGetTransform( entity_id )
 local child_x, child_y = EntityGetTransform( child_id )
@@ -32,7 +36,7 @@ local function teleport( entity_id, from_x, from_y, to_x, to_y)
 	EntitySetTransform( entity_id, to_x, to_y )
 	EntityLoad("data/entities/particles/teleportation_source.xml", from_x, from_y )
 	EntityLoad("data/entities/particles/teleportation_target.xml", to_x, to_y )
-	GamePlaySound("data/audio/Desktop/misc.bank","misc/teleport_use", to_x, to_y )
+	GamePlaySound("data/audio/Desktop/misc.bank","game_effect/teleport/tick", to_x, to_y )
 end
 
 if ComponentGetValue2( time_still_comp, "value_int" ) >= 120 then

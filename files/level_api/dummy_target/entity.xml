@@ -1,31 +1,5 @@
 <Entity tags="prop,hittable,mortal,homing_target,enemy,teleportable_NOT,polymorphable_NOT" >
-	<!-- <Base file="mods/community_tutorial/files/level_api/dummy_target/base.xml" include_children="1" /> -->
-	<LuaComponent
-		script_damage_received="mods/community_tutorial/files/level_api/dummy_target/script_damage_received.lua"
-		execute_every_n_frame="-1">
-	</LuaComponent>
-	<VariableStorageComponent name="community_tutorial.last_frame_damage" />
-
-	<Entity tags="community_tutorial.dummy_target_child" >
-		<!-- <InheritTransformComponent only_position="1" /> -->
-		<SpriteComponent
-			_tags="community_tutorial.last_frame_damage"
-			image_file="mods/community_tutorial/files/level_api/dummy_target/font.xml"
-			emissive="1"
-			is_text_sprite="1"
-			offset_x="7.5"
-			offset_y="21"
-			update_transform="1"
-			update_transform_rotation="0"
-			text="0.00"
-			has_special_scale="1"
-			special_scale_x="1"
-			special_scale_y="1"
-			z_index="-9000"
-			never_ragdollify_on_death="1">
-		</SpriteComponent>
-	</Entity>
-
+	<Base file="mods/community_tutorial/files/level_api/dummy_target/base.xml" include_children="1" />
 	<CharacterCollisionComponent/>
 	<CharacterPlatformingComponent/>
 	<CharacterDataComponent

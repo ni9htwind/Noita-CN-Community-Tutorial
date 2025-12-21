@@ -92,8 +92,8 @@
 		set_latest_event_position="1">
 	</AudioComponent>
 	<AudioLoopComponent
-		file="data/audio/Desktop/projectiles.bank"
-		event_name="player_projectiles/black_hole_big/loop"
+		file="data/audio/Desktop/misc.bank"
+		event_name="misc/teleport_loop"
 		auto_play="1">
 	</AudioLoopComponent>
 </Entity>

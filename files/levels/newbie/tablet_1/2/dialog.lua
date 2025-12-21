@@ -3,15 +3,11 @@ local mod_path = "mods/community_tutorial/"
 local dialog_system = dofile_once( mod_path .. "libs/DialogSystem/dialog_system.lua" )
 if not whoosh then
 	whoosh = dofile_once( mod_path .. "libs/whoosh.lua" )
-	local x, y = GameGetCameraPos()
-	whoosh.pos_getter = function()
-		return { x, y }
-	end
+
+	local player_id = EntityGetWithTag( "player_unit" )[1]
+	local psp_comp = EntityGetFirstComponent( player_id, "PlatformShooterPlayerComponent" )
 	whoosh.pos_setter = function( pos )
-		x, y = unpack( pos ) 
-		GameSetCameraFree( false )
-		GameSetCameraPos( x, y )
-		GameSetCameraFree( true )
+		ComponentSetValue2( psp_comp, "mDesiredCameraPos", unpack( pos ) )
 	end
 end
 

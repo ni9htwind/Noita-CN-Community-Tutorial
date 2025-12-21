@@ -496,7 +496,7 @@ dialog_system.open_dialog = function(message)
     local i = 1
 
     is_text_writing = true
-    while i <= #dialog.message.text do
+    while i <= utf8.len(dialog.message.text) do
       local char = utf8.sub(dialog.message.text, i, i)
       local play_sound = false
       local do_wait = false

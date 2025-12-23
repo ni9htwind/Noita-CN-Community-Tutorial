@@ -1,6 +1,6 @@
 <Entity>
 	<LuaComponent
-		script_damage_received="mods/community_tutorial/files/level_api/dummy_target/script_damage_received.lua"
+		script_damage_received="mods/community_tutorial/files/level_api/dummy_target/damage_received.lua"
 		execute_every_n_frame="-1">
 	</LuaComponent>
 	<VariableStorageComponent name="community_tutorial.last_frame_damage" />

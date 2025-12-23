@@ -35,7 +35,7 @@ function poof.polymorph( entity_id, target, duration )
 		ComponentSetValue2( effect_comp, "frames", duration )
 	else
 		ComponentSetValue2( effect_comp, "frames", 2 )
-		EntityAddComponent( effect, "LifetimeComponent", { lifetime = 1 } )
+		EntityAddComponent2( effect, "LifetimeComponent", { lifetime = 1 } )
 	end
 
 	return effect_comp

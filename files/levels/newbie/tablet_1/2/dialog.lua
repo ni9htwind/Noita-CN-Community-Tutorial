@@ -23,33 +23,33 @@ end
 
 local entity_id = GetUpdatedEntityID()
 
-local ln_comp = EntityGetComponent( entity_id, "VariableStorageComponent" )[1]
-local line_num = ComponentGetValue2( ln_comp, "value_int" )
-
-local option_continue = {
-	text = get_text( "dialog_option_continue" ),
-	func = function( dialog )
-		line_num = line_num + 1
-		dialog.show( dialog_lines[ line_num ] )
-	end,
-}
-
 if not dialog_lines then
 	local function load_tablet( x, y )
-		EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
+		local tablet_id = EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
+		EntityAddComponent2( tablet_id, "LifetimeComponent", { lifetime = 120 } )
 		EntityLoad( room_path .. "tablet_marker.xml", x, y )
 	end
+
+	local text_continue = get_text( "dialog_option_continue" )
+	local text_previous = get_text( "dialog_option_previous" )
 
 	dialog_lines = {
 		{
 			text = dialog_line(1),
-			options = { option_continue },
+			options = {
+				{
+					text = text_continue,
+					func = function( dialog )
+						dialog.show( dialog_lines[2] )
+					end,
+				},
+			},
 		},
 		{
 			text = dialog_line(2),
 			options = {
 				{
-					text = option_continue.text,
+					text = text_continue,
 					func = function( dialog )
 						local player_id = EntityGetWithTag( "player_unit" )[1]
 						local x, y = EntityGetTransform( player_id )
@@ -66,7 +66,13 @@ if not dialog_lines then
 							end,
 							nil,
 						}
-						option_continue.func( dialog )
+						dialog.show( dialog_lines[3] )
+					end,
+				},
+				{
+					text = text_previous,
+					func = function(dialog)
+						dialog.show(dialog_lines[1])
 					end,
 				},
 			},
@@ -75,7 +81,7 @@ if not dialog_lines then
 			text = dialog_line(3),
 			options = {
 				{
-					text = option_continue.text,
+					text = text_continue,
 					func = function( dialog )
 						local player_id = EntityGetWithTag( "player_unit" )[1]
 						local x, y = EntityGetTransform( player_id )
@@ -93,7 +99,13 @@ if not dialog_lines then
 							end,
 							nil,
 						}
-						option_continue.func( dialog )
+						dialog.show( dialog_lines[4] )
+					end,
+				},
+				{
+					text = text_previous,
+					func = function(dialog)
+						dialog.show(dialog_lines[2])
 					end,
 				},
 			},
@@ -102,10 +114,16 @@ if not dialog_lines then
 			text = dialog_line(4),
 			options = {
 				{
-					text = option_continue.text,
+					text = text_continue,
 					func = function( dialog )
 						EntityLoad( mod_path .. "files/level_api/portal_next_room/entity.xml", 445, 50 )
-						option_continue.func( dialog )
+						dialog.show( dialog_lines[5] )
+					end,
+				},
+				{
+					text = text_previous,
+					func = function(dialog)
+						dialog.show(dialog_lines[3])
 					end,
 				},
 			},
@@ -113,7 +131,13 @@ if not dialog_lines then
 		{
 			text = dialog_line(5),
 			options = {
-				{ text = get_text( "dialog_option_end" ) },
+				{ text = get_text("dialog_option_end") },
+				{
+					text = text_previous,
+					func = function(dialog)
+						dialog.show(dialog_lines[4])
+					end,
+				},
 			},
 		},
 	}
@@ -130,30 +154,25 @@ if not dialog_lines then
 	end
 end
 
-ComponentSetValue2( ln_comp, "value_int", line_num )
-
 if whoosh.inited then
 	local dest_point_index = whoosh:update()
 	if dest_point_index and fn_on_point then
 		optional_call( fn_on_point[ dest_point_index - 1 ] )
 	end
 	if not whoosh.inited then
-		fn_on_point = nil
-		GameSetCameraFree( false )
+		fn_on_point = {}
 	end
 end
-
--- wake_up_waiting_threads( 1 )
 
 if not EntityHasTag( entity_id, "invincible" ) then
 	local x, y = EntityGetTransform( entity_id )
 	local player = EntityGetInRadiusWithTag( x, y, 20, "player_unit" )
 	if player and #player > 0 then
 		EntityAddTag( entity_id, "invincible" )
-		dialog_system.open_dialog( dialog_lines[ line_num ] )
+		dialog_system.open_dialog( dialog_lines[1] )
 	end
 end
 
 function interacting( entity_who_interacted, entity_interacted, interactable_name )
-	dialog_system.open_dialog( dialog_lines[ line_num ] )
+	dialog_system.open_dialog( dialog_lines[1] )
 end

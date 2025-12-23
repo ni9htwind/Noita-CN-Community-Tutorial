@@ -66,7 +66,11 @@ local function dofile_mask( env )
 end
 
 function get_globals( filepath, extra_globals )
-	local f = loadfile( filepath )
+	local f, err = loadfile( filepath )
+	if f == nil then
+		print_error( err )
+		return {}
+	end
 
 	local e = extra_globals or {}
 	local mask = setmetatable( dofile_mask( e ), { __index = getfenv(2) } )
@@ -81,10 +85,9 @@ function get_globals( filepath, extra_globals )
 	return globals
 end
 
-local function extract_folder( source )
+local extract_folder = memoize( function( source )
 	return source:match("^(.*/)")
-end
-extract_folder = memoize( extract_folder )
+end )
 
 local finfo = jit.util.funcinfo
 function this_folder()

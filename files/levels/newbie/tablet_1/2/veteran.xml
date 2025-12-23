@@ -2,9 +2,7 @@
 	<Base file="mods/community_tutorial/files/veteran/entity.xml" >
 		<LuaComponent
 			script_interacting="mods/community_tutorial/files/levels/newbie/tablet_1/2/dialog.lua"
-			script_source_file="mods/community_tutorial/files/levels/newbie/tablet_1/2/dialog.lua"
-			vm_type="ONE_PER_COMPONENT_INSTANCE">
+			script_source_file="mods/community_tutorial/files/levels/newbie/tablet_1/2/dialog.lua">
 		</LuaComponent>
 	</Base>
-	<VariableStorageComponent value_int="1" />
 </Entity>

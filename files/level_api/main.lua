@@ -136,6 +136,8 @@ function level_api:load( level, room_index )
 	ComponentSetValue2( world_state, "time_total", 0 )
 	ComponentSetValue2( world_state, "intro_weather", true )
 
+	ModTextFileSetContent( const.Vfile_GuideText, "" )
+
 	-- EntityLoad( "data/entities/particles/supernova.xml", 0, 0 )
 end
 

@@ -34,6 +34,7 @@ return {
 			local wand_id = EntityLoad( "data/entities/items/starting_wand_rng.xml" )
 			GamePickUpInventoryItem( player_id, wand_id, false )
 			state.stage = "until_next_room"
+			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_kill" ) )
 		end,
 		until_next_room = function( state )
 		end,

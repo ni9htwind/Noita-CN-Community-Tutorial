@@ -65,6 +65,7 @@ return {
 			ComponentSetValue2( world_state, "open_fog_of_war_everywhere", false )
 
 			state.stage = "fetch_tablet"
+			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_1_1" ) )
 		end,
 		fetch_tablet = function( state )
 			for _, tablet_id in ipairs( EntityGetWithTag( "tablet" ) or {} ) do

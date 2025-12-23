@@ -23,15 +23,20 @@ return function()
 	GuiOptionsAdd( gui, GUI_OPTION.HandleDoubleClickAsClick )
 	GuiOptionsAdd( gui, GUI_OPTION.ClickCancelsDoubleClick )
 
-	if ModTextFileGetContent( const.Vfile_LevelsGuiShowing ) == "1" then
+	local levels_gui_showing = ModTextFileGetContent( const.Vfile_LevelsGuiShowing ) == "1"
+	local not_vanilla_world = GlobalsGetValue( const.Globals_NotVanillaWorld, "" ) == "1"
+
+	if levels_gui_showing then
 		dofile_once( module_path .. "level_selector.lua" )()
 	else
-		if GlobalsGetValue( const.Globals_NotVanillaWorld, "" ) == "1" then
+		if not_vanilla_world then
 			dofile_once( module_path .. "level_selector_entry_point.lua" )()
 		end
 	end
 
-	dofile_once( module_path .. "level_guide.lua" )()
+	if not_vanilla_world then
+		dofile_once( module_path .. "level_guide.lua" )()
+	end
 
 	if level_api.current and level_api.current.state.finished then
 		dofile_once( module_path .. "level_finished.lua" )()

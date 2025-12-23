@@ -33,6 +33,10 @@ return {
 	},
 	starting_pos = { 100, 286 },
 	stages = {
-		start = function( state ) end,
+		start = function( state )
+			state.stage = "until_next_room"
+			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_kill" ) )
+		end,
+		until_next_room = function( state ) end,
 	},
 }

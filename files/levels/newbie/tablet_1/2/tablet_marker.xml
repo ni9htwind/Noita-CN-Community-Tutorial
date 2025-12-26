@@ -1,6 +1,5 @@
 <Entity>
-	<ParticleEmitterComponent 
-		_tags="enabled_in_world,enabled_in_hand"
+	<ParticleEmitterComponent
 		emitted_material_name="spark_green"
 		offset.x="0"
 		offset.y="0"

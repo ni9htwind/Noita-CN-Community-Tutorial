@@ -1,0 +1,7 @@
+<Entity>
+	<Base file="mods/community_tutorial/files/level_api/sign/entity.xml">
+		<VariableStorageComponent value_string="hover_1_3" />
+		<VariableStorageComponent value_int="1" />
+		<VariableStorageComponent value_int="1" />
+	</Base>
+</Entity>

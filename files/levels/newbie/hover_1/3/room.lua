@@ -11,24 +11,21 @@ return {
 			},
 			{
 				just_load_an_entity = room_path .. "sign.xml",
-				pos_x = 36,
-				pos_y = 67,
+				pos_x = 34,
+				pos_y = 319,
 			},
 			{
 				just_load_an_entity = mod_path .. "files/level_api/end_point/base.xml",
-				pos_x = 356,
-				pos_y = 60,
+				pos_x = 70,
+				pos_y = 56,
 			},
 		},
 	},
-	starting_pos = { 36, 48 },
+	starting_pos = { 34, 308 },
 	stages = {
 		start = function( state )
-			EntityAddComponent2( EntityGetWithTag( "player_unit" )[1], "LuaComponent", {
-				script_damage_received = room_path .. "teleport_on_hurt.lua",
-			} )
 			state.stage = "until_next_room"
-			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_hover_1_1" ) )
+			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_hover_1_3" ) )
 		end,
 		until_next_room = function( state ) end,
 	},

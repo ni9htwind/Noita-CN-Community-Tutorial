@@ -35,7 +35,7 @@ return {
 	},
 	starting_pos = { whoosh_points[1][1], whoosh_points[1][2] },
 	stages = {
-		start = function( state )
+		first = function( state )
 			local player_id = EntityGetWithTag( "player_unit" )[1]
 			if not player_id then return end
 
@@ -71,10 +71,9 @@ return {
 			for _, tablet_id in ipairs( EntityGetWithTag( "tablet" ) or {} ) do
 				if EntityHasTag( EntityGetRootEntity( tablet_id ), "player_unit" ) then
 					EntityLoad( mod_path .. "files/level_api/portal_next_room/entity.xml", 2335, 787 )
-					state.stage = "until_next_room"
+					state.stage = nil
 				end
 			end
 		end,
-		until_next_room = function( state ) end,
 	},
 }

@@ -1,7 +1,6 @@
 local room_path = this_folder()
 
 return {
-	biome_map = mod_path .. "files/level_api/biome_map_blank.lua",
 	pixel_scenes = {
 		buffered = {
 			{
@@ -22,12 +21,11 @@ return {
 		},
 	},
 	starting_pos = { 24, 75 },
+	on_loaded = function( state )
+		ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_hover_1_2" ) )
+	end,
 	stages = {
-		start = function( state )
-			state.stage = "fall_check"
-			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_hover_1_2" ) )
-		end,
-		fall_check = function( state )
+		first = function( state )
 			local player_id = EntityGetWithTag( "player_unit" )[1]
 			if not player_id then return end
 			

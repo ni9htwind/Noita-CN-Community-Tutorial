@@ -1,7 +1,6 @@
 local room_path = this_folder()
 
 return {
-	biome_map = mod_path .. "files/level_api/biome_map_blank.lua",
 	pixel_scenes = {
 		buffered = {
 			{
@@ -38,18 +37,14 @@ return {
 		},
 	},
 	starting_pos = { 300, 185 },
-	stages = {
-		start = function( state )
-			local player_id = EntityGetWithTag( "player_unit" )[1]
-			if not player_id then return end
+	on_loaded = function( state )
+		local player_id = EntityGetWithTag( "player_unit" )[1]
+		if not player_id then return end
 
-			local x, y = EntityGetTransform( player_id )
-			local tablet_id = EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
-			GamePickUpInventoryItem( player_id, tablet_id )
+		local x, y = EntityGetTransform( player_id )
+		local tablet_id = EntityLoad( "data/entities/items/books/book_corpse.xml", x, y )
+		GamePickUpInventoryItem( player_id, tablet_id )
 
-			state.stage = "wait_for_veteran"
-			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_talk_with_veteran" ) )
-		end,
-		wait_for_veteran = function( state ) end,
-	},
+		ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_talk_with_veteran" ) )
+	end,
 }

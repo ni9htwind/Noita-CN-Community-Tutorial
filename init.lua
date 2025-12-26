@@ -1,5 +1,6 @@
 mod_id = "community_tutorial"
 mod_path = "mods/community_tutorial/"
+level_api_path = mod_path .. "files/level_api/"
 
 setmetatable( _G, { __index = { ModTextFileSetContent = ModTextFileSetContent } } )
 
@@ -20,7 +21,7 @@ dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path ..
 const = dofile_once( mod_path .. "files/constants.lua" )
 chapters, chapters_ordered = unpack( dofile_once( mod_path .. "files/levels/get_levels_data.lua" ) )
 lounge = chapters.special.levels.lounge
-level_api = dofile_once( mod_path .. "files/level_api/main.lua" )
+level_api = dofile_once( level_api_path .. "main.lua" )
 
 local modules = {
 	"gui",

@@ -1,7 +1,6 @@
 local room_path = this_folder()
 
 return {
-	biome_map = mod_path .. "files/level_api/biome_map_blank.lua",
 	pixel_scenes = {
 		buffered = {
 			{
@@ -32,11 +31,7 @@ return {
 		},
 	},
 	starting_pos = { 100, 286 },
-	stages = {
-		start = function( state )
-			state.stage = "until_next_room"
-			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_kill" ) )
-		end,
-		until_next_room = function( state ) end,
-	},
+	on_loaded = function( state )
+		ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_kill" ) )
+	end,
 }

@@ -1,8 +1,0 @@
-<Biome>
-	<!-- name is _EMPTY_ to avoid biome entering messages -->
-	<Topology 
-		name="_EMPTY_"
-		lua_script="mods/community_tutorial/files/level_api/biome_blank/script.lua">
-	</Topology>
-	<Materials/>
-</Biome>

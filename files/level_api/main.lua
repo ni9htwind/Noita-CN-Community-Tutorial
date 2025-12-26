@@ -1,26 +1,13 @@
 local module_path = this_folder()
 
 local nxml = dofile_once( mod_path .. "libs/nxml.lua" )
-local poof = dofile_once( mod_path .. "libs/poof/main.lua" )
 
-local biome_map_blank = mod_path .. "files/level_api/biome_map_blank.lua"
+local biome_map_blank = module_path .. "biome_map_blank/script.lua"
 
 local level_api = {}
 
 function level_api:init_player( player_id )
 	player_id = player_id or EntityGetWithTag( "player_unit" )[1]
-
---[[	for _, comp_id in ipairs( EntityGetAllComponents( player_id ) ) do
-		EntityRemoveComponent( player_id, comp_id )
-	end
-	EntityLoadToEntity( "data/entities/player_base.xml", player_id )
-
-	for i = 0,7 do
-		if InputIsJoystickConnected( i ) then
-			EntitySetComponentsWithTagEnabled( player_id, "aiming_reticle", false )
-			break
-		end
-	end]]
 
 	for _, child_id in ipairs( EntityGetAllChildren( player_id ) or {} ) do
 		local name = EntityGetName( child_id )
@@ -127,7 +114,7 @@ function level_api:load( level, room_index )
 	self.current = {
 		level = level,
 		room_index = room_index,
-		state = {},
+		state = { stage = "first" },
 	}
 
 	local world_state = EntityGetFirstComponent( GameGetWorldStateEntity(), "WorldStateComponent" )
@@ -137,8 +124,6 @@ function level_api:load( level, room_index )
 	ComponentSetValue2( world_state, "intro_weather", true )
 
 	ModTextFileSetContent( const.Vfile_GuideText, "" )
-
-	-- EntityLoad( "data/entities/particles/supernova.xml", 0, 0 )
 end
 
 function level_api:room_update()
@@ -152,16 +137,12 @@ function level_api:room_update()
 
 	local room = self.current.level.rooms[ self.current.room_index ]
 
-	if not self.current.starting_pos_applied then
-		self.current.starting_pos_applied = true
+	if not self.current.inited then
+		self.current.inited = true
 		local player_id = EntityGetWithTag( "player_unit" )[1]
 		EntitySetTransform( player_id, unpack( room.starting_pos ) )
-		GameSetCameraPos( unpack( room.starting_pos ) )
+		optional_call( room.on_loaded, self.current.state )
 	end
-
-	local stages = room.stages
-	if not stages then return end
-	local state = self.current.state
 
 	if ModTextFileGetContent( const.Vfile_EnterNextRoom ) == "1" then
 		ModTextFileSetContent( const.Vfile_EnterNextRoom, "" )
@@ -171,11 +152,16 @@ function level_api:room_update()
 		else
 			self:load( lounge )
 		end
+		return
 	end
 
-	state.stage = state.stage or "start"
+	local stages = room.stages
+	if not stages then return end
 
-	room.stages[ state.stage ]( state )
+	local state = self.current.state
+	if not state.stage then return end
+
+	optional_call( room.stages[ state.stage ], state )
 end
 
 return level_api

@@ -1,7 +1,6 @@
 local room_path = this_folder()
 
 return {
-	biome_map = mod_path .. "files/level_api/biome_map_blank.lua",
 	pixel_scenes = {
 		buffered = {
 			{
@@ -22,14 +21,10 @@ return {
 		},
 	},
 	starting_pos = { 36, 48 },
-	stages = {
-		start = function( state )
-			EntityAddComponent2( EntityGetWithTag( "player_unit" )[1], "LuaComponent", {
-				script_damage_received = room_path .. "teleport_on_hurt.lua",
-			} )
-			state.stage = "until_next_room"
-			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_hover_1_1" ) )
-		end,
-		until_next_room = function( state ) end,
-	},
+	on_loaded = function( state )
+		EntityAddComponent2( EntityGetWithTag( "player_unit" )[1], "LuaComponent", {
+			script_damage_received = room_path .. "teleport_on_hurt.lua",
+		} )
+		ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_hover_1_1" ) )
+	end,
 }

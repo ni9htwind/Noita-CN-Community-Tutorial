@@ -1,7 +1,6 @@
 local room_path = this_folder()
 
 return {
-	biome_map = mod_path .. "files/level_api/biome_map_blank.lua",
 	pixel_scenes = {
 		buffered = {
 			{
@@ -27,16 +26,11 @@ return {
 		},
 	},
 	starting_pos = { 22, 134 },
-	stages = {
-		start = function( state )
-			local player_id = EntityGetWithTag( "player_unit" )[1]
-			if not player_id then return end
-			local wand_id = EntityLoad( "data/entities/items/starting_wand_rng.xml" )
-			GamePickUpInventoryItem( player_id, wand_id, false )
-			state.stage = "until_next_room"
-			ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_kill" ) )
-		end,
-		until_next_room = function( state )
-		end,
-	},
+	on_loaded = function( state )
+		local player_id = EntityGetWithTag( "player_unit" )[1]
+		if not player_id then return end
+		local wand_id = EntityLoad( "data/entities/items/starting_wand_rng.xml" )
+		GamePickUpInventoryItem( player_id, wand_id, false )
+		ModTextFileSetContent( const.Vfile_GuideText, wrap_key( "guide_tablet_kill" ) )
+	end,
 }

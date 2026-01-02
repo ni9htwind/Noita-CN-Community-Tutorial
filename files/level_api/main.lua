@@ -122,6 +122,16 @@ function level_api:load( level, room_index )
 	ComponentSetValue2( world_state, "time", 0 )
 	ComponentSetValue2( world_state, "time_total", 0 )
 	ComponentSetValue2( world_state, "intro_weather", true )
+	ComponentSetValue2( world_state, "open_fog_of_war_everywhere", false )
+
+	local vars_entity = EntityGetWithName( const.EntityName_LevelVars )
+	if EntityGetIsAlive( vars_entity ) then
+		EntityRemoveFromParent( vars_entity )
+		EntityKill( vars_entity )
+	end
+
+	vars_entity = EntityCreateNew( const.EntityName_LevelVars )
+	EntityAddChild( world_state, vars_entity )
 
 	ModTextFileSetContent( const.Vfile_GuideText, "" )
 end

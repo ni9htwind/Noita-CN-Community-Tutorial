@@ -62,4 +62,5 @@ community_tutorial_guide_tablet_kill,,,,,,,,,阅读告示牌上内容，并根�
 community_tutorial_guide_hover_1_1,,,,,,,,,穿过通道到达终点,,,,,
 community_tutorial_guide_hover_1_2,,,,,,,,,飞跃峡谷到达终点,,,,,
 community_tutorial_guide_hover_1_3,,,,,,,,,飞上高台到达终点,,,,,
-community_tutorial_guide_walk_1,,,,,,,,,XX秒内不接触淤泥穿越隧道到达终点（$0/XX）,,,,,
+community_tutorial_guide_walk_1_1,,,,,,,,,25秒内不接触淤泥穿越隧道到达终点（进入隧道以开始）,,,,,
+community_tutorial_guide_walk_1_2,,,,,,,,,25秒内不接触淤泥穿越隧道到达终点（$0/25.00）,,,,,

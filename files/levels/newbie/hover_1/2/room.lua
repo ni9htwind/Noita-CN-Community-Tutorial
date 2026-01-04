@@ -15,7 +15,7 @@ return {
 			},
 			{
 				just_load_an_entity = mod_path .. "files/level_api/end_point/base.xml",
-				pos_x = 496,
+				pos_x = 608,
 				pos_y = 64,
 			},
 		},

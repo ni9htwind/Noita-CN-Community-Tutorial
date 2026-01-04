@@ -56,6 +56,11 @@ function previous_data( gui )
 	return GuiGetPreviousWidgetInfo( gui )
 end
 
+local settings_prefix = "community_tutorial."
+function mod_setting_get( name )
+	return ModSettingGet( settings_prefix .. name )
+end
+
 function sound_button_clicked()
 	if mod_setting_get( "button_click_sound" ) then
 		GamePlaySound( "data/audio/Desktop/ui.bank", "ui/button_click", GameGetCameraPos() )

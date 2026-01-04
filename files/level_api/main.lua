@@ -56,7 +56,7 @@ function level_api:load( level, room_index )
 	local room = level.rooms[ room_index ]
 
 	if room.seed then
-    	SetWorldSeed( seed )
+    	SetWorldSeed( room.seed )
 	end
 
 	local pixel_scenes = room.path .. "pixel_scenes.xml"

@@ -14,7 +14,7 @@ end
 
 local inf = 1 / 0
 local threshold = 10 ^ 10
-local function format_damage( damage, result_inf )
+local function format_damage( damage )
 	if damage == inf then
 		return "i"
 	end

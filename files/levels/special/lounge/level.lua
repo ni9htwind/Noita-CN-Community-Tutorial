@@ -2,7 +2,6 @@ local level_path = this_folder()
 return {
 	as_room = {
 		starting_pos = { 640, 360 },
-		biome_map = biome_map_blank,
 		pixel_scenes = {
 			buffered = {
 				{

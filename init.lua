@@ -16,7 +16,6 @@ end
 ModTextFileSetContent( main, main_content .. translations:gsub( "^[^\n]*\n", "", 1 ) )
 
 dofile_once( mod_path .. "libs/DialogSystem/init.lua" )( mod_path .. "libs/DialogSystem" )
-dofile_once( mod_path .. "libs/polytools/polytools_init.lua" ).init( mod_path .. "libs/polytools/" )
 
 const = dofile_once( mod_path .. "files/constants.lua" )
 chapters, chapters_ordered = unpack( dofile_once( mod_path .. "files/levels/get_levels_data.lua" ) )

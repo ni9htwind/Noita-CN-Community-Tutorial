@@ -1,0 +1,14 @@
+<Entity tags="community_tutorial.target" >
+	<Base file="data/entities/animals/bat.xml" >
+		<LuaComponent _remove_from_base="1" />
+		<AnimalAIComponent _remove_from_base="1" />
+		<CharacterPlatformingComponent pixel_gravity="0" />
+		<VelocityComponent gravity_y="0" />
+		<DamageModelComponent
+			hp="0.00001"
+			max_hp="0.00001"
+			blood_multiplier="0"
+			create_ragdoll="0">
+		</DamageModelComponent>
+	</Base>
+</Entity>

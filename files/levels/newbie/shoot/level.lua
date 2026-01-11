@@ -1,3 +1,3 @@
 return {
-	num_rooms = 1,
+	num_rooms = 2,
 }

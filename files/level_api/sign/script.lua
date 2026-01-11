@@ -1,11 +1,14 @@
 local mod_path = "mods/community_tutorial/"
 
-dialog_system = dofile_once( "mods/community_tutorial/libs/DialogSystem/dialog_system.lua" )
+dialog_system = dofile_once( mod_path .. "libs/DialogSystem/dialog_system.lua" )
 dofile_once( mod_path .. "files/misc_utils.lua" )
 
 function interacting( entity_who_interacted, entity_interacted, interactable_name )
 	if dialog_system.is_open then return end
+	open_dialog()
+end
 
+function open_dialog()
 	local key, line_num_min, line_num_max
 	for _, c in ipairs( EntityGetComponentIncludingDisabled( GetUpdatedEntityID(), "VariableStorageComponent" ) or {} ) do
 		if ComponentGetValue2( c, "name" ) == "key" then
@@ -46,4 +49,14 @@ function interacting( entity_who_interacted, entity_interacted, interactable_nam
 	}
 
 	dialog_system.open_dialog( main_dialog )
+end
+
+local entity_id = GetUpdatedEntityID()
+if not EntityHasTag( entity_id, "invincible" ) then
+	local x, y = EntityGetTransform( entity_id )
+	local player = EntityGetInRadiusWithTag( x, y, 15, "player_unit" )
+	if player and #player > 0 then
+		EntityAddTag( entity_id, "invincible" )
+		open_dialog()
+	end
 end

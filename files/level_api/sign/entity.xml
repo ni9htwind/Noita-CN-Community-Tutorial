@@ -7,7 +7,7 @@
 	<LuaComponent
 		script_interacting="mods/community_tutorial/files/level_api/sign/script.lua"
 		script_source_file="mods/community_tutorial/files/level_api/sign/script.lua"
-		execute_every_n_frame="-1"
+		execute_every_n_frame="1"
 		execute_on_added="1"
 		enable_coroutines="1">
 	</LuaComponent>

@@ -49,9 +49,7 @@ local callbacks = {
 local _module_path = mod_path .. "files/%s/"
 
 for _, module in ipairs( modules ) do
-	local module_path = _module_path:format( module )
-
-	local init_lua = module_path .. "init.lua"
+	local init_lua = _module_path:format( module ) .. "init.lua"
 	if not ModDoesFileExist( init_lua ) then goto continue end
 
 	local module_callbacks = dofile( init_lua ) or {}

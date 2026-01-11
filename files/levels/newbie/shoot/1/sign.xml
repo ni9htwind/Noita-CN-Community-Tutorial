@@ -1,0 +1,7 @@
+<Entity>
+	<Base file="mods/community_tutorial/files/level_api/sign/entity.xml">
+		<VariableStorageComponent value_string="shoot_1" />
+		<VariableStorageComponent value_int="1" />
+		<VariableStorageComponent value_int="1" />
+	</Base>
+</Entity>

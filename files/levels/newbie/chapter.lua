@@ -4,5 +4,6 @@ return {
 		"tablet_kill",
 		"hover_1",
 		"walk",
+		"shoot",
 	},
 }

@@ -33,7 +33,7 @@ local function spawn_target()
 	SetRandomSeed( GameGetFrameNum(), GameGetRealWorldTimeSinceStarted() )
 	local x = Random( 108, 200 )
 	local y = Random( 120, 220 )
-	EntityLoad( room_path .. "target.xml", x, y )
+	EntityLoad( mod_path .. "files/level_api/target.xml", x, y )
 end
 
 local time_limit = 999 * 60

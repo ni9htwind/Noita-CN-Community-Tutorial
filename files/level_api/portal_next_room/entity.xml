@@ -76,9 +76,9 @@
 		is_emitting="1">
 	</ParticleEmitterComponent>
 	<CollisionTriggerComponent
-		width="20"
-		height="20"
-		radius="20"
+		width="10"
+		height="10"
+		radius="10"
 		required_tag="player_unit"
 		destroy_this_entity_when_triggered="0">
 	</CollisionTriggerComponent>
